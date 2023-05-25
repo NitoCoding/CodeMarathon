@@ -3,19 +3,22 @@
  */
 package mdbudget;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -29,6 +32,8 @@ public class App extends Application {
     Stage mainStage;
     final int width = 400;
     final int height = 800;
+    // TODO change arrylist Integer to MenuItem or Menu models after init sqlite
+    ArrayList<Integer> listMenuTemp;
 
     public static void main(String[] args) {
         System.out.println("Launching...");
@@ -155,4 +160,102 @@ public class App extends Application {
         mainStage.setScene(scene);
     }
     
+
+    // public void cartPage(){
+    //     // TODO still need datamodel and some adjustment to table 
+
+    //     Label cartLabel = new Label("Cart");
+    
+    //     TableView<String> cartTable = new TableView<>();
+
+    //     TableColumn<String, String> menuNameCol =new TableColumn<>("Name");
+    //     menuNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+    //     TableColumn<String, Integer> menuQuantityCol =new TableColumn<>("Amount");
+    //     menuQuantityCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+
+    //     TableColumn<String, String> menuPriceCol =new TableColumn<>("Price");
+    //     menuPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+    //     // ? optional 
+    //     // TableColumn<String, String> menuTotalCol =new TableColumn<>("Total");
+    //     // menuTotalCol.setCellValueFactory(new PropertyValueFactory<>("Total"));
+
+    //     // * how to get totalPrice
+    //     // double totalPrice = 0.0;
+    //     // for (Person person : tableView.getItems()) {
+    //     //     Double price = priceColumn.getCellObservableValue(person).getValue();
+    //     //     if (price != null) {
+    //     //         totalPrice += price;
+    //     //     }
+    //     // }
+
+    //     // System.out.println("Total Price: " + totalPrice);
+    
+    //     VBox vbox = new VBox();
+    //     vbox.getChildren().addAll(cartLabel, cartTable);
+    //     vbox.setAlignment(Pos.TOP_CENTER);
+
+    //     AnchorPane anchorPane = new AnchorPane();
+
+    //     // Create buttons and set their positions using anchors
+    //     Button menuPageButton = new Button("Menu List");
+    //     menuPageButton.prefWidth((width/2)-10.0);
+    //     AnchorPane.setBottomAnchor(menuPageButton, 10.0);
+    //     AnchorPane.setLeftAnchor(menuPageButton, 10.0);
+    //     AnchorPane.setRightAnchor(menuPageButton,(double) width /2 +5);
+
+    //     Button orderButton = new Button("Order");
+    //     AnchorPane.setBottomAnchor(orderButton, 10.0);
+    //     AnchorPane.setLeftAnchor(orderButton, (double) width /2 +5);
+    //     AnchorPane.setRightAnchor(orderButton, 10.0);
+
+    //     // orderButton.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
+
+    //     // Add buttons to the AnchorPane
+    //     anchorPane.getChildren().addAll(menuPageButton,orderButton);
+
+    //     BorderPane mainPane = new BorderPane();
+    //     // mainPane.setTop(menuLabel);
+    //     // mainPane.setCenter(menuContainer);
+    //     mainPane.setTop(vbox);
+    //     mainPane.setBottom(anchorPane);
+
+    //     Scene scene = new Scene(mainPane, width, height);
+
+    //     mainStage.setScene(scene);
+    // }
+
+    // public void start() {
+    //     // Create an AnchorPane
+    //     AnchorPane anchorPane = new AnchorPane();
+
+    //     // Create a Button
+    //     Button button = new Button("Click me");
+    //     Button button1 = new Button("Click me");
+
+    //     // Add the Button to the AnchorPane
+    //     anchorPane.getChildren().addAll(button,button1);
+
+    //     // Set the anchors to center the Button
+    //     AnchorPane.setBottomAnchor(button, 10.0);
+    //     AnchorPane.setLeftAnchor(button, 10.0);
+    //     AnchorPane.setRightAnchor(button, 205.0);
+    //     AnchorPane.setBottomAnchor(button1, 10.0);
+    //     AnchorPane.setLeftAnchor(button1, 205.0);
+    //     AnchorPane.setRightAnchor(button1, 10.0);
+
+    //     // System.out.println(an);
+
+    //     // Create a Scene with the AnchorPane
+    //     Scene scene = new Scene(anchorPane, 400, 300);
+
+    //     // Set the Scene to the primary stage
+    //     mainStage.setScene(scene);
+    //     mainStage.show();
+    // }
+
+    // // public static void main(String[] args) {
+    // //     launch(args);
+    // // }
 }
