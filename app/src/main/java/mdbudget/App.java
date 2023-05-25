@@ -4,26 +4,106 @@
 package mdbudget;
 
 
+
 import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class App extends Application {
-
-    @Override
-    public void start(Stage stage) {
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        Scene scene = new Scene(new StackPane(l), 640, 480);
-        stage.setScene(scene);
-        stage.show();
-    }
+    Stage mainStage;
+    final int width = 400;
+    final int height = 800;
 
     public static void main(String[] args) {
-        launch();
+        System.out.println("Launching...");
+        launch(args);
     }
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        
+        mainStage= primaryStage;
+        mainStage.setTitle("Aplikasi Ganti Nama");
+
+        loginPage();
+
+        mainStage.show();
+    }
+
+    // public void menuPage(){
+    //     Button button = new Button("Pindah Page");
+    //     button.setOnAction(action -> {
+    //         loginPage();
+    //     });
+    //     Scene scene = new Scene(button, 400, 600);
+    //     // scene.getStylesheets().add(getClass().getResource("/styles/styleApp.css").toExternalForm());
+
+    //     mainStage.setScene(scene);
+    // }
+
+
+    public void loginPage(){
+        final int logoWidth = 200;
+        final int logoHeight = 150;
+
+        Label loginText = new Label("Login");
+
+        ImageView brandLogo = new ImageView(new Image(getClass().getResource("/images/mcdonalds.png").toString(),logoWidth,logoHeight,false,false));
+        
+        StackPane brandContainer = new StackPane(brandLogo);
+
+        TextField username = new TextField();
+        PasswordField password = new PasswordField();
+
+        VBox formContainer = new VBox();
+        formContainer.getChildren().addAll(username,password);
+        formContainer.setSpacing(15);
+
+        Button loginButton = new Button("Login");
+        loginButton.setOnAction(action -> {
+            // TODO make function that check if user is success to login and user not admin
+            // TODO redirect to menuPage() if success login;
+        });
+        Button registerButton = new Button("register");
+        registerButton.setOnAction(action -> {
+            // TODO redirect to registerPage()
+        });
+        
+        Button adminLoginButton = new Button("Login Admin");
+        adminLoginButton.setOnAction(action -> {
+            // TODO make function that check if user is success to login 
+            // TODO redirect to managementPage() if success login;
+
+        });
+        
+        HBox notLoginContainer = new HBox();
+        notLoginContainer.getChildren().addAll(adminLoginButton,registerButton);
+        notLoginContainer.setAlignment(Pos.BASELINE_CENTER);
+        notLoginContainer.setSpacing(10);
+        // StackPane stackPane = new StackPane();
+        // stackPane.getChildren().add(brandLogo);
+
+        VBox layout = new VBox();
+        layout.getChildren().addAll(loginText,brandContainer,formContainer,loginButton,notLoginContainer);
+        layout.setAlignment(Pos.TOP_CENTER);
+        layout.setSpacing(20);
+
+        Scene scene = new Scene(layout, width, height);
+
+        mainStage.setScene(scene);
+    }
 }
