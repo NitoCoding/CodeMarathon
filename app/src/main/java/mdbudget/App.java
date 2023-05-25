@@ -3,8 +3,6 @@
  */
 package mdbudget;
 
-
-
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
@@ -14,6 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -35,70 +37,72 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        
-        mainStage= primaryStage;
+
+        mainStage = primaryStage;
         mainStage.setTitle("Aplikasi Ganti Nama");
 
-        loginPage();
+        menuPage();
 
         mainStage.show();
     }
 
     // public void menuPage(){
-    //     Button button = new Button("Pindah Page");
-    //     button.setOnAction(action -> {
-    //         loginPage();
-    //     });
-    //     Scene scene = new Scene(button, 400, 600);
-    //     // scene.getStylesheets().add(getClass().getResource("/styles/styleApp.css").toExternalForm());
+    // Button button = new Button("Pindah Page");
+    // button.setOnAction(action -> {
+    // loginPage();
+    // });
+    // Scene scene = new Scene(button, 400, 600);
+    // //
+    // scene.getStylesheets().add(getClass().getResource("/styles/styleApp.css").toExternalForm());
 
-    //     mainStage.setScene(scene);
+    // mainStage.setScene(scene);
     // }
 
-
-    public void loginPage(){
+    public void loginPage() {
         final int logoWidth = 200;
         final int logoHeight = 150;
 
-        Label loginText = new Label("Login");
+        Label loginLabel = new Label("Login");
 
-        ImageView brandLogo = new ImageView(new Image(getClass().getResource("/images/mcdonalds.png").toString(),logoWidth,logoHeight,false,false));
-        
+        ImageView brandLogo = new ImageView(new Image(getClass().getResource("/images/mcdonalds.png").toString(),
+                logoWidth, logoHeight, false, false));
+
         StackPane brandContainer = new StackPane(brandLogo);
 
         TextField username = new TextField();
         PasswordField password = new PasswordField();
 
         VBox formContainer = new VBox();
-        formContainer.getChildren().addAll(username,password);
+        formContainer.getChildren().addAll(username, password);
         formContainer.setSpacing(15);
 
         Button loginButton = new Button("Login");
         loginButton.setOnAction(action -> {
             // TODO make function that check if user is success to login and user not admin
             // TODO redirect to menuPage() if success login;
+            menuPage();
         });
         Button registerButton = new Button("register");
         registerButton.setOnAction(action -> {
-            // TODO redirect to registerPage()
+            // TODO register user to database
         });
-        
+
         Button adminLoginButton = new Button("Login Admin");
         adminLoginButton.setOnAction(action -> {
-            // TODO make function that check if user is success to login 
+            // TODO make function that check if user is success to login
             // TODO redirect to managementPage() if success login;
 
         });
-        
+
         HBox notLoginContainer = new HBox();
-        notLoginContainer.getChildren().addAll(adminLoginButton,registerButton);
+        notLoginContainer.getChildren().addAll(adminLoginButton, registerButton);
         notLoginContainer.setAlignment(Pos.BASELINE_CENTER);
         notLoginContainer.setSpacing(10);
         // StackPane stackPane = new StackPane();
         // stackPane.getChildren().add(brandLogo);
 
         VBox layout = new VBox();
-        layout.getChildren().addAll(loginText,brandContainer,formContainer,loginButton,notLoginContainer);
+        layout.getChildren().addAll(loginLabel, brandContainer, formContainer, loginButton, notLoginContainer);
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setSpacing(20);
 
@@ -106,4 +110,49 @@ public class App extends Application {
 
         mainStage.setScene(scene);
     }
+
+    public void menuPage() {
+        final int itemLogoWidth = 0;
+        final int itemLogoHeight = 0;
+    
+        Label menuLabel = new Label("Menu");
+    
+        FlowPane menuContainer = new FlowPane();
+        menuContainer.setHgap(20);
+        menuContainer.setVgap(10);
+        menuContainer.setAlignment(Pos.BASELINE_CENTER);
+    
+        String[] dataMenu = { "sd", "ew", "qsda", "wqewq" };
+        Button[] data = new Button[dataMenu.length];
+        for (int i = 0; i < dataMenu.length; i++) {
+            data[i] = new Button("menu" + Integer.toString(i));
+            menuContainer.getChildren().add(data[i]);
+        }
+    
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(menuLabel, menuContainer);
+        vbox.setAlignment(Pos.BASELINE_CENTER);
+
+        AnchorPane anchorPane = new AnchorPane();
+
+        // Create buttons and set their positions using anchors
+        Button stickyButton = new Button("Button 1");
+        AnchorPane.setBottomAnchor(stickyButton, 10.0);
+        AnchorPane.setLeftAnchor(stickyButton, 10.0);
+        AnchorPane.setRightAnchor(stickyButton, 10.0);
+
+        // Add buttons to the AnchorPane
+        anchorPane.getChildren().addAll(stickyButton);
+
+        BorderPane mainPane = new BorderPane();
+        // mainPane.setTop(menuLabel);
+        // mainPane.setCenter(menuContainer);
+        mainPane.setTop(vbox);
+        mainPane.setBottom(anchorPane);
+
+        Scene scene = new Scene(mainPane, width, height);
+
+        mainStage.setScene(scene);
+    }
+    
 }
