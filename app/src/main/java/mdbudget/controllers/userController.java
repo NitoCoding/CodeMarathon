@@ -9,15 +9,12 @@ import java.util.ArrayList;
 import mdbudget.Connector;
 import mdbudget.models.User;
 
-/**
- * menuController
- */
-public class userController {
-    Connection conn;
-    Statement statement;
-    ResultSet resultSet;
+public class UserController {
+    static Connection conn;
+    static Statement statement;
+    static ResultSet resultSet;
 
-    public User loginUser(String nama, String password) throws SQLException{
+    public static User loginUser(String nama, String password){
         User user = null;
         try {
             conn = Connector.getConnection();
@@ -38,7 +35,7 @@ public class userController {
         return user;
     }
 
-    public boolean registerUser(String nama, String password) throws SQLException{
+    public static boolean registerUser(String nama, String password){
         boolean status = false;
         // User user = new User(nama,password);
         try {

@@ -12,19 +12,20 @@ import mdbudget.models.Menu;
 /**
  * menuController
  */
-public class menuController {
-    Connection conn;
-    Statement statement;
-    ResultSet resultSet;
+public class MenuController {
+    static Connection conn;
+    static Statement statement;
+    static ResultSet resultSet;
 
-    public ArrayList<Menu> getAllData() throws SQLException{
-        ArrayList<Menu> menus = new ArrayList<>();
+    public static ArrayList<Menu> getAllData(){
+        ArrayList<Menu> menus = null;
         try {
             conn = Connector.getConnection();
             
             statement = conn.createStatement();
             resultSet = statement.executeQuery("select * from menu");
-
+            
+            menus = new ArrayList<>();
             while (resultSet.next()) {
                 int menuId = resultSet.getInt("menuId");
                 String menuNama = resultSet.getString("menuNama");
@@ -42,7 +43,7 @@ public class menuController {
         return menus;
     }
 
-    public Menu getDataById(int id)throws SQLException{
+    public static Menu getDataById(int id){
         Menu menu = null;
         try {
             conn = Connector.getConnection();
