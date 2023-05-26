@@ -3,6 +3,13 @@
  */
 package mdbudget;
 
+import mdbudget.models.User;
+import mdbudget.controllers.UserController;
+// import mdbudget.controllers.userController;
+
+import java.sql.SQLException;
+// import mdbudget.controllers.*;
+// import mdbudget.models.*;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -83,13 +90,24 @@ public class App extends Application {
 
         Button loginButton = new Button("Login");
         loginButton.setOnAction(action -> {
-            // TODO make function that check if user is success to login and user not admin
-            // TODO redirect to menuPage() if success login;
-            menuPage();
+            String formUsername = username.getText();
+            String formPassword = password.getText();
+
+            User user = UserController.loginUser(formUsername, formPassword);
+
+            if (!user.equals(null)) {
+                menuPage();
+            }
+            // loginUser(formUsername,formPassword);
         });
         Button registerButton = new Button("register");
         registerButton.setOnAction(action -> {
             // TODO register user to database
+            String formUsername = username.getText();
+            String formPassword = password.getText();
+            UserController.registerUser(formUsername, formPassword);
+            username.setText("");
+            password.setText("");
         });
 
         Button adminLoginButton = new Button("Login Admin");
@@ -115,6 +133,9 @@ public class App extends Application {
 
         mainStage.setScene(scene);
     }
+
+    // private void loginUser(String formUsername, String formPassword) {
+    // }
 
     public void menuPage() {
         final int itemLogoWidth = 0;
@@ -158,6 +179,10 @@ public class App extends Application {
         Scene scene = new Scene(mainPane, width, height);
 
         mainStage.setScene(scene);
+    }
+
+    public Object getGreeting() {
+        return null;
     }
     
 
