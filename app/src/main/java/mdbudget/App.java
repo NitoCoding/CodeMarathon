@@ -39,7 +39,7 @@ public class App extends Application {
     Stage mainStage;
     final int width = 400;
     final int height = 800;
-    // TODO change arrylist Integer to MenuItem or Menu models after init sqlite
+    // TODO change arraylist Integer to MenuItem or Menu models after init sqlite
     ArrayList<Integer> listMenuTemp;
 
     public static void main(String[] args) {
@@ -53,7 +53,7 @@ public class App extends Application {
         mainStage = primaryStage;
         mainStage.setTitle("Aplikasi Ganti Nama");
 
-        menuPage();
+        loginPage();
 
         mainStage.show();
     }
@@ -95,7 +95,7 @@ public class App extends Application {
 
             User user = UserController.loginUser(formUsername, formPassword);
 
-            if (!user.equals(null)) {
+            if (user != null) {
                 menuPage();
             }
             // loginUser(formUsername,formPassword);

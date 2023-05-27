@@ -8,6 +8,12 @@ public class Connector {
     private static final String URL=  "jdbc:sqlite:db/MDBudget.db";
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL);
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(URL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return connection;
     }
 }
