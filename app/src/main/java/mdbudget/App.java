@@ -177,13 +177,19 @@ public class App extends Application {
         AnchorPane anchorPane = new AnchorPane();
 
         // Create buttons and set their positions using anchors
-        Button stickyButton = new Button("Button 1");
-        AnchorPane.setBottomAnchor(stickyButton, 10.0);
-        AnchorPane.setLeftAnchor(stickyButton, 10.0);
-        AnchorPane.setRightAnchor(stickyButton, 10.0);
+        Button orderButton = new Button("Button 1");
+        AnchorPane.setBottomAnchor(orderButton, 10.0);
+        AnchorPane.setLeftAnchor(orderButton, 10.0);
+        AnchorPane.setRightAnchor(orderButton, 10.0);
+        orderButton.setOnAction(action -> {
+            // if(listOrder.size() > 0){
+            //     cartPage();
+            // }
+            cartPage();
+        });
 
         // Add buttons to the AnchorPane
-        anchorPane.getChildren().addAll(stickyButton);
+        anchorPane.getChildren().addAll(orderButton);
 
         BorderPane mainPane = new BorderPane();
         // mainPane.setTop(menuLabel);
@@ -200,71 +206,74 @@ public class App extends Application {
         return null;
     }
 
-    // public void cartPage(){
-    // // TODO still need datamodel and some adjustment to table
+    public void cartPage() {
+        // TODO still need datamodel and some adjustment to table
 
-    // Label cartLabel = new Label("Cart");
+        Label cartLabel = new Label("Cart");
 
-    // TableView<Menu> cartTable = new TableView<>();
+        TableView<Menu> cartTable = new TableView<>();
 
-    // TableColumn<Menu, String> menuNameCol =new TableColumn<>("Name");
-    // menuNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<Menu, String> menuNameCol = new TableColumn<>("Name");
+        menuNameCol.setCellValueFactory(new PropertyValueFactory<>("menuNama"));
 
-    // TableColumn<Menu, Integer> menuQuantityCol =new TableColumn<>("Amount");
-    // menuQuantityCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        TableColumn<Menu, Integer> menuQuantityCol = new TableColumn<>("Amount");
+        menuQuantityCol.setCellValueFactory(new PropertyValueFactory<>("menuHarga"));
 
-    // TableColumn<Menu, String> menuPriceCol =new TableColumn<>("Price");
-    // menuPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        TableColumn<Menu, Integer> menuPriceCol = new TableColumn<>("Price");
+        menuPriceCol.setCellValueFactory(new PropertyValueFactory<>("menuHarga"));
 
-    // // ? optional
-    // // TableColumn<String, String> menuTotalCol =new TableColumn<>("Total");
-    // // menuTotalCol.setCellValueFactory(new PropertyValueFactory<>("Total"));
+        // ? optional
+        // TableColumn<String, String> menuTotalCol =new TableColumn<>("Total");
+        // menuTotalCol.setCellValueFactory(new PropertyValueFactory<>("Total"));
 
-    // // * how to get totalPrice
-    // // double totalPrice = 0.0;
-    // // for (Person person : tableView.getItems()) {
-    // // Double price = priceColumn.getCellObservableValue(person).getValue();
-    // // if (price != null) {
-    // // totalPrice += price;
-    // // }
-    // // }
+        // * how to get totalPrice
+        // double totalPrice = 0.0;
+        // for (Person person : tableView.getItems()) {
+        // Double price = priceColumn.getCellObservableValue(person).getValue();
+        // if (price != null) {
+        // totalPrice += price;
+        // }
+        // }
 
-    // // System.out.println("Total Price: " + totalPrice);
+        // System.out.println("Total Price: " + totalPrice);
 
-    // VBox vbox = new VBox();
-    // vbox.getChildren().addAll(cartLabel, cartTable);
-    // vbox.setAlignment(Pos.TOP_CENTER);
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(cartLabel, cartTable);
+        vbox.setAlignment(Pos.TOP_CENTER);
 
-    // AnchorPane anchorPane = new AnchorPane();
+        AnchorPane anchorPane = new AnchorPane();
 
-    // // Create buttons and set their positions using anchors
-    // Button menuPageButton = new Button("Menu List");
-    // menuPageButton.prefWidth((width/2)-10.0);
-    // AnchorPane.setBottomAnchor(menuPageButton, 10.0);
-    // AnchorPane.setLeftAnchor(menuPageButton, 10.0);
-    // AnchorPane.setRightAnchor(menuPageButton,(double) width /2 +5);
+        // Create buttons and set their positions using anchors
+        Button menuPageButton = new Button("Menu List");
+        menuPageButton.prefWidth((width / 2) - 10.0);
+        AnchorPane.setBottomAnchor(menuPageButton, 10.0);
+        AnchorPane.setLeftAnchor(menuPageButton, 10.0);
+        AnchorPane.setRightAnchor(menuPageButton, (double) width / 2 + 5);
+        menuPageButton.setOnAction(action -> {
+            menuPage();
+        });
 
-    // Button orderButton = new Button("Order");
-    // AnchorPane.setBottomAnchor(orderButton, 10.0);
-    // AnchorPane.setLeftAnchor(orderButton, (double) width /2 +5);
-    // AnchorPane.setRightAnchor(orderButton, 10.0);
+        Button orderButton = new Button("Order");
+        AnchorPane.setBottomAnchor(orderButton, 10.0);
+        AnchorPane.setLeftAnchor(orderButton, (double) width / 2 + 5);
+        AnchorPane.setRightAnchor(orderButton, 10.0);
 
-    // //
-    // orderButton.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
+        //
+        orderButton.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
 
-    // // Add buttons to the AnchorPane
-    // anchorPane.getChildren().addAll(menuPageButton,orderButton);
+        // Add buttons to the AnchorPane
+        anchorPane.getChildren().addAll(menuPageButton, orderButton);
 
-    // BorderPane mainPane = new BorderPane();
-    // // mainPane.setTop(menuLabel);
-    // // mainPane.setCenter(menuContainer);
-    // mainPane.setTop(vbox);
-    // mainPane.setBottom(anchorPane);
+        BorderPane mainPane = new BorderPane();
+        // mainPane.setTop(menuLabel);
+        // mainPane.setCenter(menuContainer);
+        mainPane.setTop(vbox);
+        mainPane.setBottom(anchorPane);
 
-    // Scene scene = new Scene(mainPane, width, height);
+        Scene scene = new Scene(mainPane, width, height);
 
-    // mainStage.setScene(scene);
-    // }
+        mainStage.setScene(scene);
+    }
 
     // public void start() {
     // // Create an AnchorPane
