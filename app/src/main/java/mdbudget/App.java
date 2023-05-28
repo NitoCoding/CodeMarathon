@@ -4,8 +4,11 @@
 package mdbudget;
 
 import mdbudget.models.Menu;
+import mdbudget.models.Order;
+import mdbudget.models.OrderDetail;
 import mdbudget.models.User;
 import mdbudget.controllers.MenuController;
+import mdbudget.controllers.OrderController;
 import mdbudget.controllers.UserController;
 // import mdbudget.controllers.userController;
 
@@ -15,6 +18,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
@@ -42,7 +51,7 @@ public class App extends Application {
     final int width = 400;
     final int height = 800;
     // TODO change arraylist Integer to MenuItem or Menu models after init sqlite
-    ArrayList<Menu> listOrder;
+    ArrayList<OrderDetail> listOrder = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("Launching...");
@@ -150,13 +159,15 @@ public class App extends Application {
         menuContainer.setVgap(10);
         menuContainer.setAlignment(Pos.BASELINE_CENTER);
 
+        System.out.println(listOrder);
+
         ArrayList<Menu> listMenu = MenuController.getAllData();
-        System.out.println(listMenu);
+        // System.out.println(listMenu);
         Button[] data = new Button[listMenu.size()];
         int i = 0;
         for (Menu menu : listMenu) {
             VBox buttonView = new VBox();
-            Label menuNama = new Label(menu.menuNama);
+            Label menuNama = new Label(menu.getMenuNama());
             Image gambar = new Image(getClass().getResource("/images/mcdonalds.png").toString(),
                     itemLogoWidth, itemLogoHeight, false, false);
 
@@ -168,6 +179,23 @@ public class App extends Application {
             data[i] = new Button();
             data[i].setGraphic(buttonView);
             menuContainer.getChildren().add(data[i]);
+
+            data[i].setOnAction(event -> {
+                if (listOrder.size() > 0) {
+                    for (OrderDetail order : listOrder) {
+                        Menu test = order.getOrderDetailMenu();
+                        if (!test.equals(menu)) {
+                            OrderDetail newOrder = new OrderDetail(menu);
+                            listOrder.add(newOrder);
+                        }
+                    }
+                } else {
+                    OrderDetail order = new OrderDetail(menu);
+                    listOrder.add(order);
+                }
+
+                // System.out.println(listOrder);
+            });
         }
 
         VBox vbox = new VBox();
@@ -177,13 +205,13 @@ public class App extends Application {
         AnchorPane anchorPane = new AnchorPane();
 
         // Create buttons and set their positions using anchors
-        Button orderButton = new Button("Button 1");
+        Button orderButton = new Button("order List");
         AnchorPane.setBottomAnchor(orderButton, 10.0);
         AnchorPane.setLeftAnchor(orderButton, 10.0);
         AnchorPane.setRightAnchor(orderButton, 10.0);
         orderButton.setOnAction(action -> {
             // if(listOrder.size() > 0){
-            //     cartPage();
+            // cartPage();
             // }
             cartPage();
         });
@@ -207,39 +235,154 @@ public class App extends Application {
     }
 
     public void cartPage() {
-        // TODO still need datamodel and some adjustment to table
 
         Label cartLabel = new Label("Cart");
 
-        TableView<Menu> cartTable = new TableView<>();
+        // System.out.println("Number of orders: " + listOrder.size());
 
-        TableColumn<Menu, String> menuNameCol = new TableColumn<>("Name");
-        menuNameCol.setCellValueFactory(new PropertyValueFactory<>("menuNama"));
+        ObservableList<OrderDetail> orders = FXCollections.observableArrayList();
 
-        TableColumn<Menu, Integer> menuQuantityCol = new TableColumn<>("Amount");
-        menuQuantityCol.setCellValueFactory(new PropertyValueFactory<>("menuHarga"));
+        orders.addAll(listOrder);
 
-        TableColumn<Menu, Integer> menuPriceCol = new TableColumn<>("Price");
-        menuPriceCol.setCellValueFactory(new PropertyValueFactory<>("menuHarga"));
+        Label total = new Label();
 
+        // System.out.println("Number of orders: " + orders.size());
+
+        TableView<OrderDetail> cartTable = new TableView<>();
+
+        TableColumn<OrderDetail, String> menuNameCol = new TableColumn<>("Name");
+        menuNameCol.setCellValueFactory(
+                param -> new SimpleStringProperty(param.getValue().getOrderDetailMenu().getMenuNama()));
+
+        TableColumn<OrderDetail, Integer> menuQuantityCol = new TableColumn<>("Amount");
+        menuQuantityCol.setCellValueFactory(new PropertyValueFactory<>("orderDetailMenuAmount"));
+
+        TableColumn<OrderDetail, Integer> menuPriceCol = new TableColumn<>("Price");
+        menuPriceCol.setCellValueFactory(
+                param -> new SimpleIntegerProperty(param.getValue().getOrderDetailMenu().getMenuHarga()).asObject());
+
+        TableColumn<OrderDetail, Void> menuActionCol = new TableColumn<>("Action");
+        menuActionCol.setCellFactory(param -> new TableCell<OrderDetail, Void>() {
+            private void calculateTotalPrice() {
+                double totalPrice = 0.0;
+                for (OrderDetail order : cartTable.getItems()) {
+                    Double price = menuPriceCol.getCellObservableValue(order).getValue().doubleValue()
+                            * menuQuantityCol.getCellObservableValue(order).getValue().doubleValue();
+                    if (price != null) {
+                        totalPrice += price;
+                    }
+                }
+                total.setText("Total: " + Double.toString(totalPrice));
+            }
+
+            private final Button plusButton = new Button("+");
+            private final Button minusButton = new Button("-");
+            private final Button deleteButton = new Button("!");
+
+            {
+                plusButton.setOnAction(event -> {
+                    OrderDetail order = getTableView().getItems().get(getIndex());
+
+                    order.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount() + 1);
+                    int index = listOrder.indexOf(order);
+                    if (index != -1) {
+                        OrderDetail updatedOrder = listOrder.get(index);
+                        updatedOrder.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount());
+                        // Update any other properties if necessary
+                        listOrder.set(index, updatedOrder);
+                    }
+                    cartTable.refresh();
+                    calculateTotalPrice();
+                });
+
+                minusButton.setOnAction(event -> {
+                    OrderDetail order = getTableView().getItems().get(getIndex());
+                    if (order.getOrderDetailMenuAmount() == 1) {
+                        orders.remove(order);
+                    } else {
+
+                        order.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount() - 1);
+                    }
+
+                    int index = listOrder.indexOf(order);
+                    if (index != -1) {
+                        OrderDetail updatedOrder = listOrder.get(index);
+                        updatedOrder.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount());
+                        // Update any other properties if necessary
+                        listOrder.set(index, updatedOrder);
+                    }
+                    cartTable.refresh();
+                    calculateTotalPrice();
+                });
+
+                deleteButton.setOnAction(event -> {
+                    OrderDetail order = getTableView().getItems().get(getIndex());
+                    // Handle edit button action for the specific menu item
+                    // System.out.println("Edit button clicked for: " +
+                    // order.getOrderDetailMenu().getMenuNama());
+
+                    orders.remove(order);
+
+                    int index = listOrder.indexOf(order);
+                    if (index != -1) {
+                        OrderDetail updatedOrder = listOrder.get(index);
+                        listOrder.remove(updatedOrder);
+                    }
+                    // orders.clear();
+                    // orders.addAll(listOrder);
+                    cartTable.refresh();
+                    calculateTotalPrice();
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    HBox buttonsBox = new HBox(plusButton, minusButton, deleteButton);
+                    buttonsBox.setSpacing(5.0);
+                    setGraphic(buttonsBox);
+                    setText(null);
+                }
+            }
+        });
+
+        menuNameCol.setPrefWidth(180); // Set the preferred width of the Name column to 200 pixels
+        menuQuantityCol.setPrefWidth(90); // Set the preferred width of the Amount column to 100 pixels
+        menuPriceCol.setPrefWidth(90); // Set the preferred width of the Price column to 100 pixels
+
+        cartTable.getColumns().add(menuNameCol);
+        cartTable.getColumns().add(menuQuantityCol);
+        cartTable.getColumns().add(menuPriceCol);
+        cartTable.getColumns().add(menuActionCol);
+
+        cartTable.setPadding(new Insets(0, 20, 0, 20));
+
+        cartTable.setItems(orders);
+
+        double totalPrice = 0.0;
+        for (OrderDetail order : cartTable.getItems()) {
+            double price = menuPriceCol.getCellObservableValue(order).getValue().doubleValue()
+                    * menuQuantityCol.getCellObservableValue(order).getValue().doubleValue();
+            totalPrice += price;
+        }
+        total.setText("Total: " + Double.toString(totalPrice));
         // ? optional
         // TableColumn<String, String> menuTotalCol =new TableColumn<>("Total");
         // menuTotalCol.setCellValueFactory(new PropertyValueFactory<>("Total"));
 
         // * how to get totalPrice
-        // double totalPrice = 0.0;
-        // for (Person person : tableView.getItems()) {
-        // Double price = priceColumn.getCellObservableValue(person).getValue();
-        // if (price != null) {
-        // totalPrice += price;
-        // }
-        // }
 
         // System.out.println("Total Price: " + totalPrice);
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(cartLabel, cartTable);
         vbox.setAlignment(Pos.TOP_CENTER);
+        vbox.getChildren().add(total);
+        vbox.setAlignment(Pos.CENTER_LEFT);
 
         AnchorPane anchorPane = new AnchorPane();
 
@@ -257,6 +400,9 @@ public class App extends Application {
         AnchorPane.setBottomAnchor(orderButton, 10.0);
         AnchorPane.setLeftAnchor(orderButton, (double) width / 2 + 5);
         AnchorPane.setRightAnchor(orderButton, 10.0);
+        orderButton.setOnAction(event -> {
+            orderPage();
+        });
 
         //
         orderButton.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
@@ -271,6 +417,26 @@ public class App extends Application {
         mainPane.setBottom(anchorPane);
 
         Scene scene = new Scene(mainPane, width, height);
+
+        mainStage.setScene(scene);
+    }
+
+    void orderPage(){
+        Label text = new Label("terima kasih");
+        
+        VBox vbox = new VBox();
+        vbox.getChildren().add(text);
+        vbox.setAlignment(Pos.TOP_CENTER);
+
+        try {
+            Thread.sleep(2000);
+            loginPage();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+
+        Scene scene = new Scene(vbox, width, height);
 
         mainStage.setScene(scene);
     }
