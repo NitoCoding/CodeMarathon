@@ -16,6 +16,7 @@ import java.sql.SQLException;
 // import mdbudget.controllers.*;
 // import mdbudget.models.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -35,6 +36,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -62,7 +65,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         mainStage = primaryStage;
-        mainStage.setTitle("Aplikasi Ganti Nama");
+        mainStage.setTitle("CMBurger");
 
         loginPage();
 
@@ -181,20 +184,24 @@ public class App extends Application {
             menuContainer.getChildren().add(data[i]);
 
             data[i].setOnAction(event -> {
-                if (listOrder.size() > 0) {
-                    for (OrderDetail order : listOrder) {
-                        Menu test = order.getOrderDetailMenu();
-                        if (!test.equals(menu)) {
-                            OrderDetail newOrder = new OrderDetail(menu);
-                            listOrder.add(newOrder);
-                        }
+                boolean existsInOrder = false;
+                for (OrderDetail order : listOrder) {
+                    Menu test = order.getOrderDetailMenu();
+                    if (test.equals(menu)) {
+                        existsInOrder = true;
+                        listOrder.remove(order);
+                        break;
                     }
-                } else {
-                    OrderDetail order = new OrderDetail(menu);
-                    listOrder.add(order);
                 }
 
-                // System.out.println(listOrder);
+                if (existsInOrder) {
+                    // Order already exists in the list
+                    data[i].setStyle("-fx-background-color: red;");
+                } else {
+                    OrderDetail newOrder = new OrderDetail(menu);
+                    listOrder.add(newOrder);
+                    data[i].setStyle("-fx-background-color: green;");
+                }
             });
         }
 
@@ -401,6 +408,7 @@ public class App extends Application {
         AnchorPane.setLeftAnchor(orderButton, (double) width / 2 + 5);
         AnchorPane.setRightAnchor(orderButton, 10.0);
         orderButton.setOnAction(event -> {
+
             orderPage();
         });
 
@@ -421,9 +429,9 @@ public class App extends Application {
         mainStage.setScene(scene);
     }
 
-    void orderPage(){
+    void orderPage() {
         Label text = new Label("terima kasih");
-        
+
         VBox vbox = new VBox();
         vbox.getChildren().add(text);
         vbox.setAlignment(Pos.TOP_CENTER);
@@ -434,7 +442,6 @@ public class App extends Application {
         } catch (Exception e) {
             // TODO: handle exception
         }
-
 
         Scene scene = new Scene(vbox, width, height);
 
