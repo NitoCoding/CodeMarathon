@@ -5,7 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import mdbudget.config.Connector;
+import mdbudget.utils.Connector;
+
 
 public class UserController {
     static Connection conn;

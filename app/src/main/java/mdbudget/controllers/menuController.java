@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import mdbudget.Connector;
 import mdbudget.models.Menu;
+import mdbudget.utils.Connector;
 
 /**
  * menuController

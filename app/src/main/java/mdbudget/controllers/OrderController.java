@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import mdbudget.Connector;
 import mdbudget.models.Menu;
 import mdbudget.models.Order;
 import mdbudget.models.OrderDetail;
+import mdbudget.utils.Connector;
 
 public class OrderController {
     static Connection conn;
@@ -62,7 +62,7 @@ public class OrderController {
                     for (OrderDetail orderDetail : order) {
                         String queryDetailString = "INSERT INTO orderDetail (orderDetailId, orderMenuId, orderAmount) VALUES (%d, %d, %d)";
                         String formattedQueryDetail = String.format(queryDetailString, orderId,
-                                orderDetail.getOrderDetailMenu().getMenuId(), orderDetail.getOrderDetailMenuAmount());
+                                orderDetail.getOrderDetailMenu().getId(), orderDetail.getOrderDetailMenuAmount());
                         rowsAffected += statement.executeUpdate(formattedQueryDetail);
                     }
                 }
