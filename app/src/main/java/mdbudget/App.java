@@ -30,6 +30,7 @@ public class App extends Application {
         stage.setHeight(heightPanel);
         stage.setWidth(widthPanel);
         stage.show();
+        System.out.println("test");
 
     }
 
