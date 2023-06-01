@@ -4,53 +4,28 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
-import mdbudget.Connector;
-import mdbudget.models.User;
+import mdbudget.config.Connector;
 
 public class UserController {
     static Connection conn;
     static Statement statement;
     static ResultSet resultSet;
 
-    public static User loginUser(String nama, String password){
-        User user = null;
+    public static int loginUser(String nama, String password){
+        int status = 0;
         try {
             conn = Connector.getConnection();
             statement = conn.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM user WHERE userNama = 'nito' AND userPassword = 'nito' AND (userRole != 'admin' OR userRole IS NULL)");
-            while(resultSet.next()){
-                int userId = resultSet.getInt("userId");
-                String userNama = resultSet.getString("userNama");
-                user = new User();
-                user.setUserId(userId);
-                user.setUserNama(userNama);
-            }
+            resultSet = statement.executeQuery("SELECT * FROM user WHERE userNama = 'nito' AND userPassword = 'nito' AND (userRole != 'admin' OR userRole IS NULL) limit 1");
             
-        } catch (SQLException e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-        return user;
-    }
-
-    public static boolean registerUser(String nama, String password){
-        boolean status = false;
-        // User user = new User(nama,password);
-        try {
-            conn = Connector.getConnection();
-            statement = conn.createStatement();
-            int rowsAffected = statement.executeUpdate("insert into user (userId,userNama,userPassword) values '"+nama +"''"+password+"'");
-            
-            if(rowsAffected > 0){
-                status = true;
+            if(resultSet.next()){
+                status = resultSet.getInt("userId");
             }
         } catch (SQLException e) {
             // TODO: handle exception
             e.printStackTrace();
         }
         return status;
-        
     }
 }
