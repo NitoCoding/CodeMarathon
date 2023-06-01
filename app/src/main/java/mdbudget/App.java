@@ -3,58 +3,15 @@
  */
 package mdbudget;
 
-import mdbudget.models.Menu;
-import mdbudget.models.Order;
-import mdbudget.models.OrderDetail;
-import mdbudget.models.User;
-import mdbudget.controllers.MenuController;
-import mdbudget.controllers.OrderController;
-import mdbudget.controllers.UserController;
-// import mdbudget.controllers.userController;
-
-import java.sql.SQLException;
-// import mdbudget.controllers.*;
-// import mdbudget.models.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javafx.application.Application;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import mdbudget.scenes.client.LandingPage;
 
 public class App extends Application {
     Stage mainStage;
-    final int width = 400;
-    final int height = 800;
-    // TODO change arraylist Integer to MenuItem or Menu models after init sqlite
-    ArrayList<OrderDetail> listOrder = new ArrayList<>();
+    final double widthPanel = 400;
+    final double heightPanel = 800;
 
     public static void main(String[] args) {
         System.out.println("Launching...");
@@ -62,16 +19,25 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage stage) throws Exception {
+        
+        LandingPage landingPageScene = new LandingPage(stage);
+        landingPageScene.show();
+        // OrderPage orderPageScene = new OrderPage(stage);
+        // orderPageScene.show();
+        stage.setTitle("CMBurger");
+        stage.setResizable(false);
+        stage.setHeight(heightPanel);
+        stage.setWidth(widthPanel);
+        stage.show();
 
-        mainStage = primaryStage;
-        mainStage.setTitle("CMBurger");
-
-        loginPage();
-
-        mainStage.show();
     }
 
+    public Object getGreeting() {
+        return null;
+    }
+    
+}
     // public void menuPage(){
     // Button button = new Button("Pindah Page");
     // button.setOnAction(action -> {
@@ -84,369 +50,416 @@ public class App extends Application {
     // mainStage.setScene(scene);
     // }
 
-    public void loginPage() {
-        final int logoWidth = 200;
-        final int logoHeight = 150;
+    // public void landingPage() {
+    //     final int logoWidth = 200;
+    //     final int logoHeight = 150;
 
-        Label loginLabel = new Label("Login");
+    //     Label loginLabel = new Label("Login");
 
-        ImageView brandLogo = new ImageView(new Image(getClass().getResource("/images/mcdonalds.png").toString(),
-                logoWidth, logoHeight, false, false));
+    //     ImageView brandLogo = new ImageView(new Image(getClass().getResource("/images/burger.png").toString(),
+    //             logoWidth, logoHeight, false, false));
 
-        StackPane brandContainer = new StackPane(brandLogo);
+    //     StackPane brandContainer = new StackPane(brandLogo);
 
-        TextField username = new TextField();
-        PasswordField password = new PasswordField();
+    //     TextField username = new TextField();
+    //     PasswordField password = new PasswordField();
 
-        VBox formContainer = new VBox();
-        formContainer.getChildren().addAll(username, password);
-        formContainer.setSpacing(15);
+    //     VBox formContainer = new VBox();
+    //     formContainer.getChildren().addAll(username, password);
+    //     formContainer.setSpacing(15);
 
-        Button loginButton = new Button("Login");
-        loginButton.setOnAction(action -> {
-            String formUsername = username.getText();
-            String formPassword = password.getText();
+    //     Button loginButton = new Button("Login");
+    //     loginButton.setOnAction(action -> {
+    //         String formUsername = username.getText();
+    //         String formPassword = password.getText();
 
-            User user = UserController.loginUser(formUsername, formPassword);
+    //         boolean user = UserController.loginUser(formUsername, formPassword);
 
-            if (user != null) {
-                menuPage();
-            }
-            // loginUser(formUsername,formPassword);
-        });
-        Button registerButton = new Button("register");
-        registerButton.setOnAction(action -> {
-            // TODO register user to database
-            String formUsername = username.getText();
-            String formPassword = password.getText();
-            UserController.registerUser(formUsername, formPassword);
-            username.setText("");
-            password.setText("");
-        });
+    //         if (user) {
+    //             menuPage();
+    //         }
+    //         // loginUser(formUsername,formPassword);
+    //     });
 
-        Button adminLoginButton = new Button("Login Admin");
-        adminLoginButton.setOnAction(action -> {
-            // TODO make function that check if user is success to login
-            // TODO redirect to managementPage() if success login;
+    //     Button adminLoginButton = new Button("Login Admin");
+    //     adminLoginButton.setOnAction(action -> {
+    //         // TODO make function that check if user is success to login
+    //         // TODO redirect to managementPage() if success login;
 
-        });
+    //     });
 
-        HBox notLoginContainer = new HBox();
-        notLoginContainer.getChildren().addAll(adminLoginButton, registerButton);
-        notLoginContainer.setAlignment(Pos.BASELINE_CENTER);
-        notLoginContainer.setSpacing(10);
-        // StackPane stackPane = new StackPane();
-        // stackPane.getChildren().add(brandLogo);
+    //     HBox notLoginContainer = new HBox();
+    //     notLoginContainer.getChildren().addAll(adminLoginButton);
+    //     notLoginContainer.setAlignment(Pos.BASELINE_CENTER);
+    //     notLoginContainer.setSpacing(10);
+    //     // StackPane stackPane = new StackPane();
+    //     // stackPane.getChildren().add(brandLogo);
 
-        VBox layout = new VBox();
-        layout.getChildren().addAll(loginLabel, brandContainer, formContainer, loginButton, notLoginContainer);
-        layout.setAlignment(Pos.TOP_CENTER);
-        layout.setSpacing(20);
+    //     VBox layout = new VBox();
+    //     layout.getChildren().addAll(loginLabel, brandContainer, formContainer, loginButton, notLoginContainer);
+    //     layout.setAlignment(Pos.TOP_CENTER);
+    //     layout.setSpacing(20);
 
-        Scene scene = new Scene(layout, width, height);
+    //     Scene scene = new Scene(layout, width, height);
 
-        mainStage.setScene(scene);
-    }
-
-    // private void loginUser(String formUsername, String formPassword) {
+    //     mainStage.setScene(scene);
     // }
 
-    public void menuPage() {
-        final int itemLogoWidth = 25;
-        final int itemLogoHeight = 25;
 
-        Label menuLabel = new Label("Menu");
+    // public void loginPage() {
+    //     final int logoWidth = 200;
+    //     final int logoHeight = 150;
 
-        FlowPane menuContainer = new FlowPane();
-        menuContainer.setHgap(20);
-        menuContainer.setVgap(10);
-        menuContainer.setAlignment(Pos.BASELINE_CENTER);
+    //     Label loginLabel = new Label("Login");
 
-        System.out.println(listOrder);
+    //     ImageView brandLogo = new ImageView(new Image(getClass().getResource("/images/burger.png").toString(),
+    //             logoWidth, logoHeight, false, false));
 
-        ArrayList<Menu> listMenu = MenuController.getAllData();
-        // System.out.println(listMenu);
-        Button[] data = new Button[listMenu.size()];
-        int i = 0;
-        for (Menu menu : listMenu) {
-            VBox buttonView = new VBox();
-            Label menuNama = new Label(menu.getMenuNama());
-            Image gambar = new Image(getClass().getResource("/images/mcdonalds.png").toString(),
-                    itemLogoWidth, itemLogoHeight, false, false);
+    //     StackPane brandContainer = new StackPane(brandLogo);
 
-            ImageView menuGambar = new ImageView(gambar);
+    //     TextField username = new TextField();
+    //     PasswordField password = new PasswordField();
 
-            buttonView.getChildren().addAll(menuGambar, menuNama);
-            buttonView.setAlignment(Pos.BASELINE_CENTER);
+    //     VBox formContainer = new VBox();
+    //     formContainer.getChildren().addAll(username, password);
+    //     formContainer.setSpacing(15);
 
-            data[i] = new Button();
-            data[i].setGraphic(buttonView);
-            menuContainer.getChildren().add(data[i]);
+    //     Button loginButton = new Button("Login");
+    //     loginButton.setOnAction(action -> {
+    //         String formUsername = username.getText();
+    //         String formPassword = password.getText();
 
-            data[i].setOnAction(event -> {
-                boolean existsInOrder = false;
-                for (OrderDetail order : listOrder) {
-                    Menu test = order.getOrderDetailMenu();
-                    if (test.equals(menu)) {
-                        existsInOrder = true;
-                        listOrder.remove(order);
-                        break;
-                    }
-                }
+    //         Boolean user = UserController.loginUser(formUsername, formPassword);
 
-                if (existsInOrder) {
-                    // Order already exists in the list
-                    data[i].setStyle("-fx-background-color: red;");
-                } else {
-                    OrderDetail newOrder = new OrderDetail(menu);
-                    listOrder.add(newOrder);
-                    data[i].setStyle("-fx-background-color: green;");
-                }
-            });
-        }
+    //         if (user) {
+    //             menuPage();
+    //         }
+    //         // loginUser(formUsername,formPassword);
+    //     });
 
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(menuLabel, menuContainer);
-        vbox.setAlignment(Pos.BASELINE_CENTER);
+    //     Button adminLoginButton = new Button("Login Admin");
+    //     adminLoginButton.setOnAction(action -> {
+    //         // TODO make function that check if user is success to login
+    //         // TODO redirect to managementPage() if success login;
 
-        AnchorPane anchorPane = new AnchorPane();
+    //     });
 
-        // Create buttons and set their positions using anchors
-        Button orderButton = new Button("order List");
-        AnchorPane.setBottomAnchor(orderButton, 10.0);
-        AnchorPane.setLeftAnchor(orderButton, 10.0);
-        AnchorPane.setRightAnchor(orderButton, 10.0);
-        orderButton.setOnAction(action -> {
-            // if(listOrder.size() > 0){
-            // cartPage();
-            // }
-            cartPage();
-        });
+    //     HBox notLoginContainer = new HBox();
+    //     notLoginContainer.getChildren().addAll(adminLoginButton);
+    //     notLoginContainer.setAlignment(Pos.BASELINE_CENTER);
+    //     notLoginContainer.setSpacing(10);
+    //     // StackPane stackPane = new StackPane();
+    //     // stackPane.getChildren().add(brandLogo);
 
-        // Add buttons to the AnchorPane
-        anchorPane.getChildren().addAll(orderButton);
+    //     VBox layout = new VBox();
+    //     layout.getChildren().addAll(loginLabel, brandContainer, formContainer, loginButton, notLoginContainer);
+    //     layout.setAlignment(Pos.TOP_CENTER);
+    //     layout.setSpacing(20);
 
-        BorderPane mainPane = new BorderPane();
-        // mainPane.setTop(menuLabel);
-        // mainPane.setCenter(menuContainer);
-        mainPane.setTop(vbox);
-        mainPane.setBottom(anchorPane);
+    //     Scene scene = new Scene(layout, width, height);
 
-        Scene scene = new Scene(mainPane, width, height);
+    //     mainStage.setScene(scene);
+    // }
 
-        mainStage.setScene(scene);
-    }
+    // // private void loginUser(String formUsername, String formPassword) {
+    // // }
 
-    public Object getGreeting() {
-        return null;
-    }
+    // public void menuPage() {
+    //     final int itemLogoWidth = 25;
+    //     final int itemLogoHeight = 25;
 
-    public void cartPage() {
+    //     Label menuLabel = new Label("Menu");
 
-        Label cartLabel = new Label("Cart");
+    //     FlowPane menuContainer = new FlowPane();
+    //     menuContainer.setHgap(20);
+    //     menuContainer.setVgap(10);
+    //     menuContainer.setAlignment(Pos.BASELINE_CENTER);
 
-        // System.out.println("Number of orders: " + listOrder.size());
+    //     System.out.println(listOrder);
 
-        ObservableList<OrderDetail> orders = FXCollections.observableArrayList();
+    //     ArrayList<Menu> listMenu = MenuController.getAllData();
+    //     // System.out.println(listMenu);
+    //     Button[] data = new Button[listMenu.size()];
+    //     int i = 0;
+    //     for (Menu menu : listMenu) {
+    //         VBox buttonView = new VBox();
+    //         Label menuNama = new Label(menu.getMenuNama());
+    //         Image gambar = new Image(getClass().getResource("/images/mcdonalds.png").toString(),
+    //                 itemLogoWidth, itemLogoHeight, false, false);
 
-        orders.addAll(listOrder);
+    //         ImageView menuGambar = new ImageView(gambar);
 
-        Label total = new Label();
+    //         buttonView.getChildren().addAll(menuGambar, menuNama);
+    //         buttonView.setAlignment(Pos.BASELINE_CENTER);
 
-        // System.out.println("Number of orders: " + orders.size());
+    //         data[i] = new Button();
+    //         data[i].setGraphic(buttonView);
+    //         menuContainer.getChildren().add(data[i]);
 
-        TableView<OrderDetail> cartTable = new TableView<>();
+    //         data[i].setOnAction(event -> {
+    //             boolean existsInOrder = false;
+    //             for (OrderDetail order : listOrder) {
+    //                 Menu test = order.getOrderDetailMenu();
+    //                 if (test.equals(menu)) {
+    //                     existsInOrder = true;
+    //                     listOrder.remove(order);
+    //                     break;
+    //                 }
+    //             }
 
-        TableColumn<OrderDetail, String> menuNameCol = new TableColumn<>("Name");
-        menuNameCol.setCellValueFactory(
-                param -> new SimpleStringProperty(param.getValue().getOrderDetailMenu().getMenuNama()));
+    //             if (existsInOrder) {
+    //                 // Order already exists in the list
+    //                 data[i].setStyle("-fx-background-color: red;");
+    //             } else {
+    //                 OrderDetail newOrder = new OrderDetail(menu);
+    //                 listOrder.add(newOrder);
+    //                 data[i].setStyle("-fx-background-color: green;");
+    //             }
+    //         });
+    //     }
 
-        TableColumn<OrderDetail, Integer> menuQuantityCol = new TableColumn<>("Amount");
-        menuQuantityCol.setCellValueFactory(new PropertyValueFactory<>("orderDetailMenuAmount"));
+    //     VBox vbox = new VBox();
+    //     vbox.getChildren().addAll(menuLabel, menuContainer);
+    //     vbox.setAlignment(Pos.BASELINE_CENTER);
 
-        TableColumn<OrderDetail, Integer> menuPriceCol = new TableColumn<>("Price");
-        menuPriceCol.setCellValueFactory(
-                param -> new SimpleIntegerProperty(param.getValue().getOrderDetailMenu().getMenuHarga()).asObject());
+    //     AnchorPane anchorPane = new AnchorPane();
 
-        TableColumn<OrderDetail, Void> menuActionCol = new TableColumn<>("Action");
-        menuActionCol.setCellFactory(param -> new TableCell<OrderDetail, Void>() {
-            private void calculateTotalPrice() {
-                double totalPrice = 0.0;
-                for (OrderDetail order : cartTable.getItems()) {
-                    Double price = menuPriceCol.getCellObservableValue(order).getValue().doubleValue()
-                            * menuQuantityCol.getCellObservableValue(order).getValue().doubleValue();
-                    if (price != null) {
-                        totalPrice += price;
-                    }
-                }
-                total.setText("Total: " + Double.toString(totalPrice));
-            }
+    //     // Create buttons and set their positions using anchors
+    //     Button orderButton = new Button("order List");
+    //     AnchorPane.setBottomAnchor(orderButton, 10.0);
+    //     AnchorPane.setLeftAnchor(orderButton, 10.0);
+    //     AnchorPane.setRightAnchor(orderButton, 10.0);
+    //     orderButton.setOnAction(action -> {
+    //         // if(listOrder.size() > 0){
+    //         // cartPage();
+    //         // }
+    //         cartPage();
+    //     });
 
-            private final Button plusButton = new Button("+");
-            private final Button minusButton = new Button("-");
-            private final Button deleteButton = new Button("!");
+    //     // Add buttons to the AnchorPane
+    //     anchorPane.getChildren().addAll(orderButton);
 
-            {
-                plusButton.setOnAction(event -> {
-                    OrderDetail order = getTableView().getItems().get(getIndex());
+    //     BorderPane mainPane = new BorderPane();
+    //     // mainPane.setTop(menuLabel);
+    //     // mainPane.setCenter(menuContainer);
+    //     mainPane.setTop(vbox);
+    //     mainPane.setBottom(anchorPane);
 
-                    order.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount() + 1);
-                    int index = listOrder.indexOf(order);
-                    if (index != -1) {
-                        OrderDetail updatedOrder = listOrder.get(index);
-                        updatedOrder.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount());
-                        // Update any other properties if necessary
-                        listOrder.set(index, updatedOrder);
-                    }
-                    cartTable.refresh();
-                    calculateTotalPrice();
-                });
+    //     Scene scene = new Scene(mainPane, width, height);
 
-                minusButton.setOnAction(event -> {
-                    OrderDetail order = getTableView().getItems().get(getIndex());
-                    if (order.getOrderDetailMenuAmount() == 1) {
-                        orders.remove(order);
-                    } else {
+    //     mainStage.setScene(scene);
+    // }
 
-                        order.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount() - 1);
-                    }
+    // public Object getGreeting() {
+    //     return null;
+    // }
 
-                    int index = listOrder.indexOf(order);
-                    if (index != -1) {
-                        OrderDetail updatedOrder = listOrder.get(index);
-                        updatedOrder.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount());
-                        // Update any other properties if necessary
-                        listOrder.set(index, updatedOrder);
-                    }
-                    cartTable.refresh();
-                    calculateTotalPrice();
-                });
+    // public void cartPage() {
 
-                deleteButton.setOnAction(event -> {
-                    OrderDetail order = getTableView().getItems().get(getIndex());
-                    // Handle edit button action for the specific menu item
-                    // System.out.println("Edit button clicked for: " +
-                    // order.getOrderDetailMenu().getMenuNama());
+    //     Label cartLabel = new Label("Cart");
 
-                    orders.remove(order);
+    //     // System.out.println("Number of orders: " + listOrder.size());
 
-                    int index = listOrder.indexOf(order);
-                    if (index != -1) {
-                        OrderDetail updatedOrder = listOrder.get(index);
-                        listOrder.remove(updatedOrder);
-                    }
-                    // orders.clear();
-                    // orders.addAll(listOrder);
-                    cartTable.refresh();
-                    calculateTotalPrice();
-                });
-            }
+    //     ObservableList<OrderDetail> orders = FXCollections.observableArrayList();
 
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                    setText(null);
-                } else {
-                    HBox buttonsBox = new HBox(plusButton, minusButton, deleteButton);
-                    buttonsBox.setSpacing(5.0);
-                    setGraphic(buttonsBox);
-                    setText(null);
-                }
-            }
-        });
+    //     orders.addAll(listOrder);
 
-        menuNameCol.setPrefWidth(180); // Set the preferred width of the Name column to 200 pixels
-        menuQuantityCol.setPrefWidth(90); // Set the preferred width of the Amount column to 100 pixels
-        menuPriceCol.setPrefWidth(90); // Set the preferred width of the Price column to 100 pixels
+    //     Label total = new Label();
 
-        cartTable.getColumns().add(menuNameCol);
-        cartTable.getColumns().add(menuQuantityCol);
-        cartTable.getColumns().add(menuPriceCol);
-        cartTable.getColumns().add(menuActionCol);
+    //     // System.out.println("Number of orders: " + orders.size());
 
-        cartTable.setPadding(new Insets(0, 20, 0, 20));
+    //     TableView<OrderDetail> cartTable = new TableView<>();
 
-        cartTable.setItems(orders);
+    //     TableColumn<OrderDetail, String> menuNameCol = new TableColumn<>("Name");
+    //     menuNameCol.setCellValueFactory(
+    //             param -> new SimpleStringProperty(param.getValue().getOrderDetailMenu().getMenuNama()));
 
-        double totalPrice = 0.0;
-        for (OrderDetail order : cartTable.getItems()) {
-            double price = menuPriceCol.getCellObservableValue(order).getValue().doubleValue()
-                    * menuQuantityCol.getCellObservableValue(order).getValue().doubleValue();
-            totalPrice += price;
-        }
-        total.setText("Total: " + Double.toString(totalPrice));
-        // ? optional
-        // TableColumn<String, String> menuTotalCol =new TableColumn<>("Total");
-        // menuTotalCol.setCellValueFactory(new PropertyValueFactory<>("Total"));
+    //     TableColumn<OrderDetail, Integer> menuQuantityCol = new TableColumn<>("Amount");
+    //     menuQuantityCol.setCellValueFactory(new PropertyValueFactory<>("orderDetailMenuAmount"));
 
-        // * how to get totalPrice
+    //     TableColumn<OrderDetail, Integer> menuPriceCol = new TableColumn<>("Price");
+    //     menuPriceCol.setCellValueFactory(
+    //             param -> new SimpleIntegerProperty(param.getValue().getOrderDetailMenu().getMenuHarga()).asObject());
 
-        // System.out.println("Total Price: " + totalPrice);
+    //     TableColumn<OrderDetail, Void> menuActionCol = new TableColumn<>("Action");
+    //     menuActionCol.setCellFactory(param -> new TableCell<OrderDetail, Void>() {
+    //         private void calculateTotalPrice() {
+    //             double totalPrice = 0.0;
+    //             for (OrderDetail order : cartTable.getItems()) {
+    //                 Double price = menuPriceCol.getCellObservableValue(order).getValue().doubleValue()
+    //                         * menuQuantityCol.getCellObservableValue(order).getValue().doubleValue();
+    //                 if (price != null) {
+    //                     totalPrice += price;
+    //                 }
+    //             }
+    //             total.setText("Total: " + Double.toString(totalPrice));
+    //         }
 
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(cartLabel, cartTable);
-        vbox.setAlignment(Pos.TOP_CENTER);
-        vbox.getChildren().add(total);
-        vbox.setAlignment(Pos.CENTER_LEFT);
+    //         private final Button plusButton = new Button("+");
+    //         private final Button minusButton = new Button("-");
+    //         private final Button deleteButton = new Button("!");
 
-        AnchorPane anchorPane = new AnchorPane();
+    //         {
+    //             plusButton.setOnAction(event -> {
+    //                 OrderDetail order = getTableView().getItems().get(getIndex());
 
-        // Create buttons and set their positions using anchors
-        Button menuPageButton = new Button("Menu List");
-        menuPageButton.prefWidth((width / 2) - 10.0);
-        AnchorPane.setBottomAnchor(menuPageButton, 10.0);
-        AnchorPane.setLeftAnchor(menuPageButton, 10.0);
-        AnchorPane.setRightAnchor(menuPageButton, (double) width / 2 + 5);
-        menuPageButton.setOnAction(action -> {
-            menuPage();
-        });
+    //                 order.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount() + 1);
+    //                 int index = listOrder.indexOf(order);
+    //                 if (index != -1) {
+    //                     OrderDetail updatedOrder = listOrder.get(index);
+    //                     updatedOrder.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount());
+    //                     // Update any other properties if necessary
+    //                     listOrder.set(index, updatedOrder);
+    //                 }
+    //                 cartTable.refresh();
+    //                 calculateTotalPrice();
+    //             });
 
-        Button orderButton = new Button("Order");
-        AnchorPane.setBottomAnchor(orderButton, 10.0);
-        AnchorPane.setLeftAnchor(orderButton, (double) width / 2 + 5);
-        AnchorPane.setRightAnchor(orderButton, 10.0);
-        orderButton.setOnAction(event -> {
+    //             minusButton.setOnAction(event -> {
+    //                 OrderDetail order = getTableView().getItems().get(getIndex());
+    //                 if (order.getOrderDetailMenuAmount() == 1) {
+    //                     orders.remove(order);
+    //                 } else {
 
-            orderPage();
-        });
+    //                     order.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount() - 1);
+    //                 }
 
-        //
-        orderButton.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
+    //                 int index = listOrder.indexOf(order);
+    //                 if (index != -1) {
+    //                     OrderDetail updatedOrder = listOrder.get(index);
+    //                     updatedOrder.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount());
+    //                     // Update any other properties if necessary
+    //                     listOrder.set(index, updatedOrder);
+    //                 }
+    //                 cartTable.refresh();
+    //                 calculateTotalPrice();
+    //             });
 
-        // Add buttons to the AnchorPane
-        anchorPane.getChildren().addAll(menuPageButton, orderButton);
+    //             deleteButton.setOnAction(event -> {
+    //                 OrderDetail order = getTableView().getItems().get(getIndex());
+    //                 // Handle edit button action for the specific menu item
+    //                 // System.out.println("Edit button clicked for: " +
+    //                 // order.getOrderDetailMenu().getMenuNama());
 
-        BorderPane mainPane = new BorderPane();
-        // mainPane.setTop(menuLabel);
-        // mainPane.setCenter(menuContainer);
-        mainPane.setTop(vbox);
-        mainPane.setBottom(anchorPane);
+    //                 orders.remove(order);
 
-        Scene scene = new Scene(mainPane, width, height);
+    //                 int index = listOrder.indexOf(order);
+    //                 if (index != -1) {
+    //                     OrderDetail updatedOrder = listOrder.get(index);
+    //                     listOrder.remove(updatedOrder);
+    //                 }
+    //                 // orders.clear();
+    //                 // orders.addAll(listOrder);
+    //                 cartTable.refresh();
+    //                 calculateTotalPrice();
+    //             });
+    //         }
 
-        mainStage.setScene(scene);
-    }
+    //         @Override
+    //         protected void updateItem(Void item, boolean empty) {
+    //             super.updateItem(item, empty);
+    //             if (empty) {
+    //                 setGraphic(null);
+    //                 setText(null);
+    //             } else {
+    //                 HBox buttonsBox = new HBox(plusButton, minusButton, deleteButton);
+    //                 buttonsBox.setSpacing(5.0);
+    //                 setGraphic(buttonsBox);
+    //                 setText(null);
+    //             }
+    //         }
+    //     });
 
-    void orderPage() {
-        Label text = new Label("terima kasih");
+    //     menuNameCol.setPrefWidth(180); // Set the preferred width of the Name column to 200 pixels
+    //     menuQuantityCol.setPrefWidth(90); // Set the preferred width of the Amount column to 100 pixels
+    //     menuPriceCol.setPrefWidth(90); // Set the preferred width of the Price column to 100 pixels
 
-        VBox vbox = new VBox();
-        vbox.getChildren().add(text);
-        vbox.setAlignment(Pos.TOP_CENTER);
+    //     cartTable.getColumns().add(menuNameCol);
+    //     cartTable.getColumns().add(menuQuantityCol);
+    //     cartTable.getColumns().add(menuPriceCol);
+    //     cartTable.getColumns().add(menuActionCol);
 
-        try {
-            Thread.sleep(2000);
-            loginPage();
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
+    //     cartTable.setPadding(new Insets(0, 20, 0, 20));
 
-        Scene scene = new Scene(vbox, width, height);
+    //     cartTable.setItems(orders);
 
-        mainStage.setScene(scene);
-    }
+    //     double totalPrice = 0.0;
+    //     for (OrderDetail order : cartTable.getItems()) {
+    //         double price = menuPriceCol.getCellObservableValue(order).getValue().doubleValue()
+    //                 * menuQuantityCol.getCellObservableValue(order).getValue().doubleValue();
+    //         totalPrice += price;
+    //     }
+    //     total.setText("Total: " + Double.toString(totalPrice));
+    //     // ? optional
+    //     // TableColumn<String, String> menuTotalCol =new TableColumn<>("Total");
+    //     // menuTotalCol.setCellValueFactory(new PropertyValueFactory<>("Total"));
+
+    //     // * how to get totalPrice
+
+    //     // System.out.println("Total Price: " + totalPrice);
+
+    //     VBox vbox = new VBox();
+    //     vbox.getChildren().addAll(cartLabel, cartTable);
+    //     vbox.setAlignment(Pos.TOP_CENTER);
+    //     vbox.getChildren().add(total);
+    //     vbox.setAlignment(Pos.CENTER_LEFT);
+
+    //     AnchorPane anchorPane = new AnchorPane();
+
+    //     // Create buttons and set their positions using anchors
+    //     Button menuPageButton = new Button("Menu List");
+    //     menuPageButton.prefWidth((width / 2) - 10.0);
+    //     AnchorPane.setBottomAnchor(menuPageButton, 10.0);
+    //     AnchorPane.setLeftAnchor(menuPageButton, 10.0);
+    //     AnchorPane.setRightAnchor(menuPageButton, (double) width / 2 + 5);
+    //     menuPageButton.setOnAction(action -> {
+    //         menuPage();
+    //     });
+
+    //     Button orderButton = new Button("Order");
+    //     AnchorPane.setBottomAnchor(orderButton, 10.0);
+    //     AnchorPane.setLeftAnchor(orderButton, (double) width / 2 + 5);
+    //     AnchorPane.setRightAnchor(orderButton, 10.0);
+    //     orderButton.setOnAction(event -> {
+
+    //         orderPage();
+    //     });
+
+    //     //
+    //     orderButton.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
+
+    //     // Add buttons to the AnchorPane
+    //     anchorPane.getChildren().addAll(menuPageButton, orderButton);
+
+    //     BorderPane mainPane = new BorderPane();
+    //     // mainPane.setTop(menuLabel);
+    //     // mainPane.setCenter(menuContainer);
+    //     mainPane.setTop(vbox);
+    //     mainPane.setBottom(anchorPane);
+
+    //     Scene scene = new Scene(mainPane, width, height);
+
+    //     mainStage.setScene(scene);
+    // }
+
+    // void orderPage() {
+    //     Label text = new Label("terima kasih");
+
+    //     VBox vbox = new VBox();
+    //     vbox.getChildren().add(text);
+    //     vbox.setAlignment(Pos.TOP_CENTER);
+
+    //     try {
+    //         Thread.sleep(2000);
+    //         loginPage();
+    //     } catch (Exception e) {
+    //         // TODO: handle exception
+    //     }
+
+    //     Scene scene = new Scene(vbox, width, height);
+
+    //     mainStage.setScene(scene);
+    // }
 
     // public void start() {
     // // Create an AnchorPane
@@ -475,7 +488,7 @@ public class App extends Application {
     // // Set the Scene to the primary stage
     // mainStage.setScene(scene);
     // mainStage.show();
-}
+
 
 // // public static void main(String[] args) {
 // // launch(args);
