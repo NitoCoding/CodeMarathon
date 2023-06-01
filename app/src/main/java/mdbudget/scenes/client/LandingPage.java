@@ -18,7 +18,7 @@ import mdbudget.utils.ImageGenerator;
 
 public class LandingPage extends BaseScene implements Showable {
 
-    final int logoWidth = 200;
+    final int logoWidth = 150;
     final int logoHeight = 150;
 
     public LandingPage(Stage stage) {
@@ -28,20 +28,48 @@ public class LandingPage extends BaseScene implements Showable {
     @Override
     public void show() {
         Label loginLabel = new Label("Login");
+        loginLabel.setStyle("fx-font-size: 20px;-fx-font-weight: bold;-fx-aligment: center");
 
         ImageView brandLogo = new ImageView(ImageGenerator.generate("burger.png", logoWidth, logoHeight));
 
         StackPane brandContainer = new StackPane(brandLogo);
 
+        VBox usernameField = new VBox();
+        Label usernameLabel =  new Label("username : ");
         TextField username = new TextField();
+        username.setStyle("-fx-max-width: 300px; -fx-max-height: 50px;");
+        usernameField.getChildren().addAll(usernameLabel,username);
+        
+        VBox passwordField = new VBox();
+        Label passwordLabel =  new Label("password : ");
         PasswordField password = new PasswordField();
+        password.setStyle("-fx-max-width: 300px; -fx-max-height: 50px;");
+        passwordField.getChildren().addAll(passwordLabel,password);
+
+        // password.setStyle("-fx-pref-width: 200px; -fx-pref-height: 30px;");
 
         VBox formContainer = new VBox();
-        formContainer.getChildren().addAll(username, password);
+        formContainer.getChildren().addAll(usernameField,passwordField);
+        formContainer.setAlignment(Pos.TOP_CENTER);
         formContainer.setSpacing(15);
 
         Button loginButton = new Button("Login");
         loginButton.setOnAction(action -> {
+            String formUsername = username.getText();
+            String formPassword = password.getText();
+
+            int user = UserController.loginUser(formUsername, formPassword);
+
+            if (user != 0) {
+                MenuPage menuPageScene = new MenuPage(stage);
+                menuPageScene.show();
+            }
+
+            // loginUser(formUsername,formPassword);
+        });
+
+        Button registerButton = new Button("Login");
+        registerButton.setOnAction(action -> {
             String formUsername = username.getText();
             String formPassword = password.getText();
 
