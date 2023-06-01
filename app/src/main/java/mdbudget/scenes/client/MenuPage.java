@@ -54,6 +54,7 @@ public class MenuPage extends BaseScene implements Showable {
         for (Menu menu : listMenu) {
             VBox buttonView = new VBox();
             Label menuNama = new Label(menu.getMenuNama());
+            menuNama.setWrapText(true);
             // final String gambarMenu = menu.menuGambar;
 
             ImageView menuGambar = new ImageView(ImageGenerator.generate("burger.png", itemLogoWidth, itemLogoHeight));
