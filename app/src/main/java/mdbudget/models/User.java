@@ -1,6 +1,6 @@
 package mdbudget.models;
 
-public class User {
+public class User extends BaseModel{
     int userId;
     String userNama;
     String userPassword;
@@ -11,14 +11,6 @@ public class User {
     }
 
     public User(){}
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public String getUserNama() {
         return userNama;
@@ -36,4 +28,10 @@ public class User {
         this.userPassword = userPassword;
     }
 
+    @Override
+    public void displayInfo() {
+        System.out.println("User ID: " + getId());
+        System.out.println("Nama: " + getUserNama());
+        System.out.println("Password: " + getUserPassword());
+    }
 }

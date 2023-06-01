@@ -1,26 +1,17 @@
 package mdbudget.models;
 
-public class Menu {
-    public int menuId;
+public class Menu extends BaseModel{
     public String menuNama;
     public String menuKategori;
     public int menuHarga;
     public String menuGambar;
 
     public Menu(int id, String nama, String kategori, int harga, String gambar) {
-        this.menuId = id;
+        super(id);
         this.menuNama = nama;
         this.menuKategori = kategori;
         this.menuHarga = harga;
         this.menuGambar = gambar;
-    }
-
-    public int getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(int menuId) {
-        this.menuId = menuId;
     }
 
     public String getMenuNama() {
@@ -48,12 +39,19 @@ public class Menu {
     }
 
     public String getMenuGambar() {
-        return menuGambar;
+        return menuGambar.toString();
     }
 
     public void setMenuGambar(String menuGambar) {
         this.menuGambar = menuGambar;
     }
 
-    
+    @Override
+    public void displayInfo() {
+        System.out.println("Menu ID: " + getId());
+        System.out.println("Nama: " + getMenuNama());
+        System.out.println("Kategori: " + getMenuKategori());
+        System.out.println("Harga: " + getMenuHarga());
+        System.out.println("Gambar: " + getMenuGambar());
+    }
 }
