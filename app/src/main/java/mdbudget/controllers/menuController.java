@@ -21,7 +21,6 @@ public class MenuController {
         ArrayList<Menu> menus = null;
         try {
             conn = Connector.getConnection();
-            
             statement = conn.createStatement();
             resultSet = statement.executeQuery("select * from menu");
             
