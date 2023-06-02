@@ -71,9 +71,7 @@ public class MenuPage extends BaseScene implements Showable {
             ImageView menuGambar = new ImageView(ImageGenerator.generate(menu.getMenuGambar()+".png", itemLogoWidth, itemLogoHeight));
             Label menuNama = new Label(menu.getMenuNama());
             menuNama.setWrapText(true);
-
-            // menuContainer.setConstraints(menuGambar, col, row);
-            // menuContainer.setConstraints(menuNama, col, row + 1);
+            // final String gambarMenu = menu.menuGambar;
 
             GridPane buttonView = new GridPane();
             buttonView.add(menuGambar, 0, 0);
