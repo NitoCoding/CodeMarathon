@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 
 public class Connector {
-    private static final String URL=  "jdbc:sqlite:db/MDBudget.db";
+    private static final String URL=  "jdbc:sqlite:db/MD_Budget.db";
 
     public static Connection getConnection() throws SQLException {
         Connection connection = null;
