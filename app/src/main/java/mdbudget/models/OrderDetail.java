@@ -2,11 +2,13 @@ package mdbudget.models;
 
 public class OrderDetail extends BaseModel{
     int orderDetailId;
+    Order orderDetailOrder;
     Menu orderDetailMenu;
     int orderDetailMenuAmount; 
     
-    public OrderDetail(int orderDetailId, Menu orderDetailMenu, int orderDetailMenuAmount) {
+    public OrderDetail(int orderDetailId,Order orderDetailOrder ,Menu orderDetailMenu, int orderDetailMenuAmount) {
         this.orderDetailId = orderDetailId;
+        this.orderDetailOrder = orderDetailOrder;
         this.orderDetailMenu = orderDetailMenu;
         this.orderDetailMenuAmount = orderDetailMenuAmount;
     }
@@ -23,6 +25,14 @@ public class OrderDetail extends BaseModel{
 
     public void setOrderDetailMenu(Menu orderDetailMenu) {
         this.orderDetailMenu = orderDetailMenu;
+    }
+
+    public Order getOrderDetailorder() {
+        return orderDetailOrder;
+    }
+
+    public void setOrderDetailOrder(Order orderDetailOrder) {
+        this.orderDetailOrder = orderDetailOrder;
     }
 
     public int getOrderDetailMenuAmount() {
