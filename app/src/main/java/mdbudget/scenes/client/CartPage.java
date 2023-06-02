@@ -14,10 +14,9 @@ import java.util.ArrayList;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,15 +34,31 @@ public class CartPage extends BaseScene implements Showable {
 
     @Override
     public void show(){
-        Label cartLabel = new Label("Cart");
+        GridPane headerContainer = new GridPane();
+
+        Label cartLabel = new Label("Checkout List");
+        cartLabel.setStyle(
+            "-fx-font-family: 'Jacques Francois';" +
+            "-fx-font-size: 40px;" +
+            "-fx-font-weight: 400;" +
+            "-fx-line-height: 53px;" +
+            "-fx-letter-spacing: 0em;" +
+            "-fx-text-alignment: center;" +
+            "-fx-text-fill: #385748;"
+            // "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 0px, 4px, 4px);"
+        );
+
+        headerContainer.add(cartLabel,0,0);
+        headerContainer.setAlignment(Pos.TOP_CENTER);
 
         // System.out.println("Number of orders: " + listOrder.size());
+        GridPane tableContainer = new GridPane();
 
         ObservableList<OrderDetail> orders = FXCollections.observableArrayList();
 
         orders.addAll(listOrder);
 
-        Label total = new Label();
+        Label totalPriceLabel = new Label();
 
         // System.out.println("Number of orders: " + orders.size());
 
@@ -71,7 +86,7 @@ public class CartPage extends BaseScene implements Showable {
                         totalPrice += price;
                     }
                 }
-                total.setText("Total: " + Double.toString(totalPrice));
+                totalPriceLabel.setText("Total: " + Double.toString(totalPrice));
             }
 
             private final Button plusButton = new Button("+");
@@ -149,9 +164,10 @@ public class CartPage extends BaseScene implements Showable {
             }
         });
 
-        menuNameCol.setPrefWidth(180); // Set the preferred width of the Name column to 200 pixels
-        menuQuantityCol.setPrefWidth(90); // Set the preferred width of the Amount column to 100 pixels
-        menuPriceCol.setPrefWidth(90); // Set the preferred width of the Price column to 100 pixels
+        menuNameCol.setPrefWidth(130); 
+        menuQuantityCol.setPrefWidth(65); 
+        menuPriceCol.setPrefWidth(70); 
+        menuActionCol.setPrefWidth(75); 
 
         cartTable.getColumns().add(menuNameCol);
         cartTable.getColumns().add(menuQuantityCol);
@@ -168,56 +184,76 @@ public class CartPage extends BaseScene implements Showable {
                     * menuQuantityCol.getCellObservableValue(order).getValue().doubleValue();
             totalPrice += price;
         }
-        total.setText("Total: " + Double.toString(totalPrice));
-        // ? optional
-        // TableColumn<String, String> menuTotalCol =new TableColumn<>("Total");
-        // menuTotalCol.setCellValueFactory(new PropertyValueFactory<>("Total"));
+        totalPriceLabel.setText("Total: " + Double.toString(totalPrice));
 
-        // * how to get totalPrice
+        tableContainer.add(cartTable, 0, 0);
+        tableContainer.add(totalPriceLabel, 0, 1);
 
-        // System.out.println("Total Price: " + totalPrice);
 
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(cartLabel, cartTable);
-        vbox.setAlignment(Pos.TOP_CENTER);
-        vbox.getChildren().add(total);
-        vbox.setAlignment(Pos.CENTER_LEFT);
+        
+        
+        GridPane stickyButtonContainer = new GridPane();
 
-        AnchorPane anchorPane = new AnchorPane();
-
-        // Create buttons and set their positions using anchors
-        Button menuPageButton = new Button("Menu List");
-        menuPageButton.prefWidth((stage.getWidth() / 2) - 10.0);
-        AnchorPane.setBottomAnchor(menuPageButton, 10.0);
-        AnchorPane.setLeftAnchor(menuPageButton, 10.0);
-        AnchorPane.setRightAnchor(menuPageButton, (double) stage.getWidth() / 2 + 5);
-        menuPageButton.setOnAction(action -> {
-            MenuPage menuPageScene = new MenuPage(stage);
+        Button menuPageButton = new Button("Back to Menu");
+        menuPageButton.setStyle(
+            "-fx-min-height: 45px; " +
+            "-fx-min-width: 170px; " +
+            "-fx-background-color: #58585B;" +
+            "-fx-border-color: none;" +
+            "-fx-background-radius: 10;"+
+            "-fx-font-family: 'Jaldi';" +
+            "-fx-font-size: 15px;" +
+            "-fx-font-weight: 400;" +
+            "-fx-line-height: 34px;" +
+            "-fx-text-fill: white;"
+        );
+        menuPageButton.setOnAction(event -> {
+            MenuPage menuPageScene = new MenuPage(stage, listOrder);
             menuPageScene.show();
-        });
+        } 
 
+        );
+        // GridPane.setMargin(logoutButton, new Insets(0, 25, 0, 0)); 
+        stickyButtonContainer.add(menuPageButton,0,0);
+
+        // Create buttons and add them to the gridPane
         Button orderButton = new Button("Order");
-        AnchorPane.setBottomAnchor(orderButton, 10.0);
-        AnchorPane.setLeftAnchor(orderButton, (double) stage.getWidth() / 2 + 5);
-        AnchorPane.setRightAnchor(orderButton, 10.0);
+        orderButton.setStyle(
+            "-fx-min-height: 45px; " +
+            "-fx-min-width: 170px; " +
+            "-fx-background-color: #58585B;" +
+            "-fx-border-color: none;" +
+            "-fx-background-radius: 10;"+
+            "-fx-font-family: 'Jaldi';" +
+            "-fx-font-size: 15px;" +
+            "-fx-font-weight: 400;" +
+            "-fx-line-height: 34px;" +
+            "-fx-text-fill: white;"
+        );
         orderButton.setOnAction(event -> {
-            OrderPage orderPageScene = new OrderPage(stage);
-            orderPageScene.show();
+            CartPage cartPageScene = new CartPage(stage, listOrder);
+            cartPageScene.show();
         });
+        // GridPane.setMargin(checkoutButton, new Insets(0, 0, 0, 25));
+        stickyButtonContainer.add(orderButton, 1, 0);
 
-        //
-        orderButton.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
+        
 
-        // Add buttons to the AnchorPane
-        anchorPane.getChildren().addAll(menuPageButton, orderButton);
+        // Set the alignment and padding for the gridPane
+        stickyButtonContainer.setHgap(25);
+        stickyButtonContainer.setAlignment(Pos.CENTER);
+        stickyButtonContainer.setPadding(new Insets(10));
 
-        BorderPane mainPane = new BorderPane();
-        // mainPane.setTop(menuLabel);
-        // mainPane.setCenter(menuContainer);
-        mainPane.setTop(vbox);
-        mainPane.setBottom(anchorPane);
+        // Set the constraints for the button
+        // GridPane.setHalignment(orderButton, HPos.CENTER);
 
-        Scene scene = new Scene(mainPane, stage.getWidth(), stage.getHeight());
+        // Add the gridPane to the BorderPane
+        BorderPane layout = new BorderPane();
+        layout.setTop(headerContainer);
+        layout.setCenter(tableContainer);
+        layout.setBottom(stickyButtonContainer);
+
+        Scene scene = new Scene(layout, stage.getWidth(), stage.getHeight());
 
         stage.setScene(scene);
     }
