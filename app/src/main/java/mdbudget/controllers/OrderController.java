@@ -6,51 +6,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import mdbudget.models.Menu;
-import mdbudget.models.Order;
 import mdbudget.models.OrderDetail;
 import mdbudget.utils.Connector;
+import mdbudget.utils.IdDatabaseGenerator;
 
 public class OrderController {
     static Connection conn;
     static Statement statement;
     static ResultSet resultSet;
 
-    public static int getLastOrderDataId() {
-        int id = 0;
-        try {
-            conn = Connector.getConnection();
-
-            statement = conn.createStatement();
-            resultSet = statement.executeQuery("select max(orderId) as orderId from order");
-
-            // menus = new ArrayList<>();
-            while (resultSet.next()) {
-                id = resultSet.getInt("orderId");
-                if (id == 0) {
-                    id += 1;
-                }
-                // int menuId = resultSet.getInt("menuId");
-                // String menuNama = resultSet.getString("menuNama");
-                // String menuKategori = resultSet.getString("menuKategori");
-                // int menuHarga = resultSet.getInt("menuHarga");
-                // String menuGambar = resultSet.getString("menuGambar");
-
-                // Menu menu = new Menu(menuId, menuNama, menuKategori, menuHarga, menuGambar);
-                // menus.add(menu);
-            }
-        } catch (SQLException e) {
-            // Handle the exception or log the error
-            e.printStackTrace();
-        }
-        return id;
-    }
-
     public static boolean addOrder(ArrayList<OrderDetail> order, int total) {
         boolean status = false;
         try {
             int rowsAffected = 0;
-            int orderId = getLastOrderDataId();
+            int orderId = IdDatabaseGenerator.generateId("orderId", "tb_order");
             conn = Connector.getConnection();
             statement = conn.createStatement();
             if (order.size() > 1 && order.size() != 0) {
@@ -69,11 +38,28 @@ public class OrderController {
                 if (rowsAffected > 1) {
                     status = true;
                 }
+                conn.commit();
                 // for (int i = 0; i < order.size(); i++) {
             }
             // }
         } catch (SQLException e) {
-            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            // Close the database connections
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Handle the exception or log the error
+                e.printStackTrace();
+            }
         }
         return status;
     }

@@ -23,8 +23,6 @@ public class App extends Application {
         
         LandingPage landingPageScene = new LandingPage(stage);
         landingPageScene.show();
-        // OrderPage orderPageScene = new OrderPage(stage);
-        // orderPageScene.show();
         stage.setTitle("CMBurger");
         stage.setResizable(false);
         stage.setHeight(heightPanel);
