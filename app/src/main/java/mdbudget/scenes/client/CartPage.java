@@ -53,6 +53,8 @@ public class CartPage extends BaseScene implements Showable {
 
         // System.out.println("Number of orders: " + listOrder.size());
         GridPane tableContainer = new GridPane();
+        tableContainer.setHgap(20);
+        tableContainer.setAlignment(Pos.TOP_CENTER);
 
         ObservableList<OrderDetail> orders = FXCollections.observableArrayList();
 
@@ -63,6 +65,9 @@ public class CartPage extends BaseScene implements Showable {
         // System.out.println("Number of orders: " + orders.size());
 
         TableView<OrderDetail> cartTable = new TableView<>();
+        cartTable.getStyleClass().add(getClass().getResource("/style/style.css").toExternalForm());
+        cartTable.setId("my-table");
+
 
         TableColumn<OrderDetail, String> menuNameCol = new TableColumn<>("Name");
         menuNameCol.setCellValueFactory(
@@ -174,7 +179,7 @@ public class CartPage extends BaseScene implements Showable {
         cartTable.getColumns().add(menuPriceCol);
         cartTable.getColumns().add(menuActionCol);
 
-        cartTable.setPadding(new Insets(0, 20, 0, 20));
+        // cartTable.setPadding(new Insets(0, 20, 0, 20));
 
         cartTable.setItems(orders);
 
