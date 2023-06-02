@@ -4,6 +4,7 @@ public class User extends BaseModel{
     int userId;
     String userNama;
     String userPassword;
+    String userRole;
 
     public User(String userNama, String userPassword) {
         this.userNama = userNama;

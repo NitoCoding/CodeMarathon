@@ -1,44 +1,28 @@
 package mdbudget.models;
 
+import mdbudget.utils.DateGenerator;
+
 public class Order extends BaseModel{
-    OrderDetail orderDetail;
-    int orderTotal;
-    String orderDate;
+    private int orderId;
+    private OrderDetail orderDetail;
+    private int orderTotal;
+    private User orderUser;
+    private String orderDate;
     
-    public int getOrderTotal() {
-        return orderTotal;
-    }
-
-    public void setOrderTotal(int orderTotal) {
-        this.orderTotal = orderTotal;
-    }
-
-    public String getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public Order(OrderDetail orderDetail, int orderTotal, String orderDate) {
-        this.orderDetail = orderDetail;
-        this. orderTotal = orderTotal;
-        this.orderDate = orderDate;
-    }
-
-    public Order(int id, OrderDetail orderDetail, int orderTotal, String orderDate) {
-        super(id);
-        this.orderDetail = orderDetail;
-        this.orderTotal = orderTotal;
-        this.orderDate = orderDate;
+    public Order(int id,OrderDetail detail,int total,User user){
+        this.orderId = id;
+        this.orderDetail = detail;
+        this.orderTotal = total;
+        this.orderUser = user;
+        this.orderDate = DateGenerator.getDateString();
     }
     
-    public OrderDetail getOrderDetail() {
-        return orderDetail;
-    }
-    public void setOrderDetail(OrderDetail orderDetail) {
-        this.orderDetail = orderDetail;
+    public Order(int id,OrderDetail detail,int total,User user, String date){
+        this.orderId = id;
+        this.orderDetail = detail;
+        this.orderTotal = total;
+        this.orderUser = user;
+        this.orderDate = DateGenerator.getDateString();
     }
 
     @Override
@@ -47,5 +31,65 @@ public class Order extends BaseModel{
         System.out.println("Order Detail: " + getOrderDetail());
         System.out.println("Order Total: " + getOrderTotal());
         System.out.println("Order Date: " + getOrderDate());
+    }
+
+
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+
+
+    public OrderDetail getOrderDetail() {
+        return orderDetail;
+    }
+
+
+
+    public void setOrderDetail(OrderDetail orderDetail) {
+        this.orderDetail = orderDetail;
+    }
+
+
+
+    public int getOrderTotal() {
+        return orderTotal;
+    }
+
+
+
+    public void setOrderTotal(int orderTotal) {
+        this.orderTotal = orderTotal;
+    }
+
+
+
+    public User getOrderUser() {
+        return orderUser;
+    }
+
+
+
+    public void setOrderUser(User orderUser) {
+        this.orderUser = orderUser;
+    }
+
+
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 }
