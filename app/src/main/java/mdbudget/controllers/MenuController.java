@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import mdbudget.models.BaseModel;
 import mdbudget.models.Menu;
 import mdbudget.utils.Connector;
 
@@ -17,8 +18,8 @@ public class MenuController {
     static PreparedStatement statement;
     static ResultSet resultSet;
 
-    public static ArrayList<Menu> getAllData(){
-        ArrayList<Menu> menus = null;
+    public static ArrayList<BaseModel> getAllDataMenus(){
+        ArrayList<BaseModel> menus = null;
         try {
             String readQuery = "select * from tb_Menu";
 
