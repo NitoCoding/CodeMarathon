@@ -12,12 +12,14 @@ import javafx.stage.Stage;
 import mdbudget.controllers.UserController;
 import mdbudget.interfaces.Showable;
 import mdbudget.scenes.BaseScene;
+import mdbudget.scenes.admin.ManagementPage;
 import mdbudget.utils.ImageGenerator;
 
 public class LandingPage extends BaseScene implements Showable {
 
-    final int logoWidth = 150;
-    final int logoHeight = 150;
+    private final int logoWidth = 150;
+    private final int logoHeight = 150;
+    private int userId;
 
     public LandingPage(Stage stage) {
         super(stage);
@@ -92,10 +94,11 @@ public class LandingPage extends BaseScene implements Showable {
             String formPassword = password.getText();
             System.out.println(formUsername + " " + formPassword);
 
-            int user = UserController.loginUser(formUsername, formPassword);
+            userId = UserController.loginUser(formUsername, formPassword);
+            System.out.println(userId);
 
-            if (user != 0) {
-                MenuPage menuPageScene = new MenuPage(stage);
+            if (userId != 0) {
+                MenuPage menuPageScene = new MenuPage(stage, userId);
                 menuPageScene.show();
             }
 
@@ -148,8 +151,8 @@ public class LandingPage extends BaseScene implements Showable {
             int user = UserController.loginUserAdmin(formUsername, formPassword);
 
             if (user != 0) {
-                MenuPage menuPageScene = new MenuPage(stage);
-                menuPageScene.show();
+                ManagementPage managementPageScene = new ManagementPage(stage);
+                managementPageScene.show();
             }
         });
 
