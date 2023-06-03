@@ -19,7 +19,7 @@ public class Order extends BaseModel {
         this.orderId = id;
         this.orderTotal = total;
         this.orderUser = user;
-        this.orderDate = DateGenerator.getDateString();
+        this.orderDate = date;
     }
 
     @Override
