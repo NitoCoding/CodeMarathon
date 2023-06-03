@@ -46,7 +46,7 @@ public class LandingPage extends BaseScene implements Showable {
 
         GridPane logoContainer = new GridPane();
 
-        ImageView brandLogo = new ImageView(ImageGenerator.generate("burger.png", logoWidth, logoHeight));
+        ImageView brandLogo = new ImageView(ImageGenerator.generate("mcbudg.png", logoWidth, logoHeight));
 
         logoContainer.add(brandLogo,0,0);
         // StackPane brandContainer = new StackPane(brandLogo);
