@@ -6,12 +6,25 @@ public class User extends BaseModel{
     String userPassword;
     String userRole;
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
     public User(String userNama, String userPassword) {
         this.userNama = userNama;
         this.userPassword = userPassword;
     }
 
-    public User(){}
+    public User(int userId,String userNama, String userPassword, String userRole){
+        this.userId = userId;
+        this.userNama = userNama;
+        this.userPassword = userPassword;
+        this.userRole = userRole;
+    }
 
     public String getUserNama() {
         return userNama;
