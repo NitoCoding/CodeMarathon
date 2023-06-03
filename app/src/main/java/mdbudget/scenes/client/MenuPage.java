@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import mdbudget.controllers.MenuController;
 import mdbudget.interfaces.Showable;
+import mdbudget.models.BaseModel;
 import mdbudget.models.Menu;
 import mdbudget.models.OrderDetail;
 import mdbudget.scenes.BaseScene;
@@ -22,18 +23,21 @@ import mdbudget.utils.ImageGenerator;
 
 public class MenuPage extends BaseScene implements Showable {
     private ArrayList<OrderDetail> listOrder;
-    private ArrayList<Menu> listMenu;
+    private ArrayList<BaseModel> listMenu;
+    private int userId;
 
-    public MenuPage(Stage stage) {
+    public MenuPage(Stage stage, int userId) {
         super(stage);
         this.listOrder = new ArrayList<>();
-        this.listMenu = MenuController.getAllData();
+        this.listMenu = MenuController.getAllDataMenus();
+        this.userId = userId;
     }
 
-    public MenuPage(Stage stage, ArrayList<OrderDetail> listOrder) {
+    public MenuPage(Stage stage, ArrayList<OrderDetail> listOrder, int userId) {
         super(stage);
         this.listOrder = listOrder;
-        this.listMenu = MenuController.getAllData();
+        this.listMenu = MenuController.getAllDataMenus();
+        this.userId = userId;
     }
 
     @Override
@@ -67,7 +71,14 @@ public class MenuPage extends BaseScene implements Showable {
         int i = 0;
         int row = 0;
         int col = 0;
-        for (Menu menu : listMenu) {
+        ArrayList<Menu> menuList = new ArrayList<>();
+        for (BaseModel model : listMenu) {
+            if (model instanceof Menu) {
+                menuList.add((Menu) model);
+            }
+        }
+        for (Menu menu : menuList) {
+            System.out.println(menu.getMenuGambar());
             ImageView menuGambar = new ImageView(ImageGenerator.generate(menu.getMenuGambar()+".png", itemLogoWidth, itemLogoHeight));
             Label menuNama = new Label(menu.getMenuNama());
             menuNama.setWrapText(true);
@@ -85,8 +96,8 @@ public class MenuPage extends BaseScene implements Showable {
             data[i] = new Button();
             data[i].setGraphic(buttonView);
             data[i].setStyle(
-                    "-fx-min-height: 150px; " +
-                            "-fx-min-width: 150px; " +
+                    "-fx-pref-height: 140px; " +
+                            "-fx-pref-width: 120px; " +
                             "-fx-background-color: transparent; " +
                             "-fx-background-radius: 15px;" +
                             "-fx-border-radius: 15px; " +
@@ -118,11 +129,11 @@ public class MenuPage extends BaseScene implements Showable {
 
                 if (existsInOrder) {
                     // Order already exists in the list
-                    data[currentIndex].setStyle(data[currentIndex].getStyle() + "-fx-border-color: #00ff00;");
+                    data[currentIndex].setStyle(data[currentIndex].getStyle() + "-fx-border-color: #000000;");
                 } else {
                     OrderDetail newOrder = new OrderDetail(menu);
                     listOrder.add(newOrder);
-                    data[currentIndex].setStyle(data[currentIndex].getStyle() + "-fx-border-color: #000000;");
+                    data[currentIndex].setStyle(data[currentIndex].getStyle() + "-fx-border-color: #00ff00;");
                 }
             });
             i++;
@@ -134,7 +145,7 @@ public class MenuPage extends BaseScene implements Showable {
 
         Button logoutButton = new Button("Log out");
         logoutButton.setStyle(
-            "-fx-min-height: 45px; " +
+            "-fx-max-height: 45px; " +
             "-fx-min-width: 100px; " +
             "-fx-background-color: #D96161;" +
             "-fx-border-color: none;" +
@@ -169,8 +180,15 @@ public class MenuPage extends BaseScene implements Showable {
             "-fx-text-fill: white;"
         );
         checkoutButton.setOnAction(event -> {
-            CartPage cartPageScene = new CartPage(stage, listOrder);
-            cartPageScene.show();
+            
+            try {
+                if (checkoutButton != null) {
+                    CartPage cartPageScene = new CartPage(stage, listOrder, userId);
+                    cartPageScene.show();
+                }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
         });
         // GridPane.setMargin(checkoutButton, new Insets(0, 0, 0, 25));
         stickyButtonContainer.add(checkoutButton, 1, 0);
