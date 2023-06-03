@@ -59,13 +59,18 @@ public class LandingPage extends BaseScene implements Showable {
         formContainer.setVgap(12);
 
         Label usernameLabel = new Label("Username :");
+        usernameLabel.setStyle("-fx-font-family: 'Comic Sans MS';-fx-font-size:15;");
         TextField username = new TextField();
+        username.setStyle("-fx-background-radius:100;");
         // username.setMaxWidth(250);
         username.setMinWidth(250);
         username.setMinHeight(30);;
 
         Label passwordLabel = new Label("Password :");
+        passwordLabel.setStyle("-fx-font-family: 'Comic Sans MS';-fx-font-size:15;");
         PasswordField password = new PasswordField();
+        password.setStyle("-fx-background-radius: 100;");
+
         password.setMinWidth(250);
         password.setMinHeight(30);
 
@@ -78,7 +83,7 @@ public class LandingPage extends BaseScene implements Showable {
 
         Button loginButton = new Button("Login");
         loginButton.setStyle(
-            "-fx-background-color: #58585B;" +
+            "-fx-background-color: #F2911F;" +
             "-fx-border-color: none;" +
             "-fx-background-radius: 10;"+
             "-fx-font-family: 'Jaldi';" +
@@ -107,7 +112,7 @@ public class LandingPage extends BaseScene implements Showable {
 
         Button registerButton = new Button("Register");
         registerButton.setStyle(
-            "-fx-background-color: #58585B;" +
+            "-fx-background-color: #F2911F;" +
             "-fx-border-color: none;" +
             "-fx-background-radius: 10;"+
             "-fx-font-family: 'Jaldi';" +
@@ -133,7 +138,7 @@ public class LandingPage extends BaseScene implements Showable {
 
         Button adminLoginButton = new Button("Login Admin");
         adminLoginButton.setStyle(
-            "-fx-background-color: #58585B;" +
+            "-fx-background-color: #F2911F;" +
             "-fx-border-color: none;" +
             "-fx-background-radius: 10;"+
             "-fx-font-family: 'Jaldi';" +
