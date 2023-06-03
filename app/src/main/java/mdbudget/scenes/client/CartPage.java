@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
 
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,16 +21,21 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import mdbudget.controllers.OrderController;
 import mdbudget.interfaces.Showable;
 import mdbudget.models.OrderDetail;
 import mdbudget.scenes.BaseScene;
 
 public class CartPage extends BaseScene implements Showable {
     private ArrayList<OrderDetail> listOrder;
+    private int userId;
+    private int total;
 
-    CartPage(Stage stage, ArrayList<OrderDetail> listOrder){
+    CartPage(Stage stage, ArrayList<OrderDetail> listOrder,int userId){
         super(stage);
         this.listOrder = listOrder;
+        this.userId = userId;
+        this.total = 0;
     }
 
     @Override
@@ -65,8 +71,8 @@ public class CartPage extends BaseScene implements Showable {
         // System.out.println("Number of orders: " + orders.size());
 
         TableView<OrderDetail> cartTable = new TableView<>();
-        cartTable.getStyleClass().add(getClass().getResource("/style/style.css").toExternalForm());
-        cartTable.setId("my-table");
+        // cartTable.getStyleClass().add(getClass().getResource("/style/style.css").toExternalForm());
+        // cartTable.setId("my-table");
 
 
         TableColumn<OrderDetail, String> menuNameCol = new TableColumn<>("Name");
@@ -86,11 +92,12 @@ public class CartPage extends BaseScene implements Showable {
                 double totalPrice = 0.0;
                 for (OrderDetail order : cartTable.getItems()) {
                     Double price = menuPriceCol.getCellObservableValue(order).getValue().doubleValue()
-                            * menuQuantityCol.getCellObservableValue(order).getValue().doubleValue();
+                            * menuQuantityCol.getCellObservableValue(order).getValue();
                     if (price != null) {
                         totalPrice += price;
                     }
                 }
+                total = (int) totalPrice;
                 totalPriceLabel.setText("Total: " + Double.toString(totalPrice));
             }
 
@@ -169,10 +176,15 @@ public class CartPage extends BaseScene implements Showable {
             }
         });
 
-        menuNameCol.setPrefWidth(130); 
+        menuNameCol.setPrefWidth(110); 
         menuQuantityCol.setPrefWidth(65); 
         menuPriceCol.setPrefWidth(70); 
-        menuActionCol.setPrefWidth(75); 
+        menuActionCol.setPrefWidth(90); 
+
+        menuNameCol.setResizable(false);
+        menuQuantityCol.setResizable(false);
+        menuPriceCol.setResizable(false);
+        menuActionCol.setResizable(false);
 
         cartTable.getColumns().add(menuNameCol);
         cartTable.getColumns().add(menuQuantityCol);
@@ -188,6 +200,7 @@ public class CartPage extends BaseScene implements Showable {
             double price = menuPriceCol.getCellObservableValue(order).getValue().doubleValue()
                     * menuQuantityCol.getCellObservableValue(order).getValue().doubleValue();
             totalPrice += price;
+            total = (int) totalPrice;
         }
         totalPriceLabel.setText("Total: " + Double.toString(totalPrice));
 
@@ -213,7 +226,7 @@ public class CartPage extends BaseScene implements Showable {
             "-fx-text-fill: white;"
         );
         menuPageButton.setOnAction(event -> {
-            MenuPage menuPageScene = new MenuPage(stage, listOrder);
+            MenuPage menuPageScene = new MenuPage(stage, listOrder, userId);
             menuPageScene.show();
         } 
 
@@ -236,8 +249,20 @@ public class CartPage extends BaseScene implements Showable {
             "-fx-text-fill: white;"
         );
         orderButton.setOnAction(event -> {
-            CartPage cartPageScene = new CartPage(stage, listOrder);
+            CartPage cartPageScene = new CartPage(stage, listOrder,userId);
             cartPageScene.show();
+        });
+
+        orderButton.setOnAction(event -> {
+            try {
+                boolean status = OrderController.addOrder(listOrder, total, userId);
+                if(status ){
+                    LandingPage landingPageScene = new LandingPage(stage);
+                    landingPageScene.show();
+                }
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
         });
         // GridPane.setMargin(checkoutButton, new Insets(0, 0, 0, 25));
         stickyButtonContainer.add(orderButton, 1, 0);
