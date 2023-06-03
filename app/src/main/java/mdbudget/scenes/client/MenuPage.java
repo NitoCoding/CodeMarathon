@@ -125,7 +125,7 @@ public class MenuPage extends BaseScene implements Showable {
 
                 if (existsInOrder) {
                     // Order already exists in the list
-                    data[currentIndex].setStyle(data[currentIndex].getStyle() + "-fx-border-color: #000000;");
+                    data[currentIndex].setStyle(data[currentIndex].getStyle() + "-fx-border-color: #F2911F;");
                 } else {
                     OrderDetail newOrder = new OrderDetail(menu);
                     listOrder.add(newOrder);
