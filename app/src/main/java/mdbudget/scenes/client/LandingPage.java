@@ -30,7 +30,7 @@ public class LandingPage extends BaseScene implements Showable {
         Label loginLabel = new Label("Login");
         loginLabel.setStyle("fx-font-size: 20px;-fx-font-weight: bold;-fx-aligment: center");
 
-        ImageView brandLogo = new ImageView(ImageGenerator.generate("burger.png", logoWidth, logoHeight));
+        ImageView brandLogo = new ImageView(ImageGenerator.generate("mcbudg.png", logoWidth, logoHeight));
 
         StackPane brandContainer = new StackPane(brandLogo);
 

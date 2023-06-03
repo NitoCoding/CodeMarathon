@@ -57,7 +57,7 @@ public class MenuPage extends BaseScene implements Showable {
             // menuNama.setWrapText(true);
             // final String gambarMenu = menu.menuGambar;
 
-            ImageView menuGambar = new ImageView(ImageGenerator.generate("burger.png", itemLogoWidth, itemLogoHeight));
+            ImageView menuGambar = new ImageView(ImageGenerator.generate("mcbudg.png", itemLogoWidth, itemLogoHeight));
             // ImageView menuGambar = new ImageView(ImageGenerator.generate(menu.getMenuGambar().toString(), itemLogoWidth, itemLogoHeight));
 
             buttonView.getChildren().addAll(menuGambar, menuNama);

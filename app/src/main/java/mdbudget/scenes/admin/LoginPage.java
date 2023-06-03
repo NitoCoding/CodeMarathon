@@ -29,7 +29,7 @@ public class LoginPage extends BaseScene implements Showable {
 
         Label loginLabel = new Label("Login");
 
-        ImageView brandLogo = new ImageView(ImageGenerator.generate("user.png",logoWidth,logoHeight));
+        ImageView brandLogo = new ImageView(ImageGenerator.generate("mcbudg.png",logoWidth,logoHeight));
 
         StackPane brandContainer = new StackPane(brandLogo);
 
