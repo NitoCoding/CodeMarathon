@@ -56,7 +56,6 @@ public class MenuPage extends BaseScene implements Showable {
             "-fx-letter-spacing: 0em;" +
             "-fx-text-alignment: center;" +
             "-fx-text-fill: #385748;"
-            // "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 0px, 4px, 4px);"
         );
 
         headerContainer.add(menuLabel,0,0);
@@ -82,7 +81,6 @@ public class MenuPage extends BaseScene implements Showable {
             ImageView menuGambar = new ImageView(ImageGenerator.generate(menu.getMenuGambar()+".png", itemLogoWidth, itemLogoHeight));
             Label menuNama = new Label(menu.getMenuNama());
             menuNama.setWrapText(true);
-            // final String gambarMenu = menu.menuGambar;
 
             GridPane buttonView = new GridPane();
             buttonView.add(menuGambar, 0, 0);
@@ -105,8 +103,6 @@ public class MenuPage extends BaseScene implements Showable {
                             "-fx-border-color: #000000;");
 
             menuContainer.add(data[i], col, row);
-
-            // menuContainer.getChildren().addAll(menuGambar, menuNama, data[i]);
 
             col++;
             if (col == 2) {
@@ -139,8 +135,6 @@ public class MenuPage extends BaseScene implements Showable {
             i++;
         }
 
-        //
-
         GridPane stickyButtonContainer = new GridPane();
 
         Button logoutButton = new Button("Log out");
@@ -159,13 +153,10 @@ public class MenuPage extends BaseScene implements Showable {
         logoutButton.setOnAction(event -> {
             LandingPage landingPageScene = new LandingPage(stage);
             landingPageScene.show();
-        }
+        });
 
-        );
-        // GridPane.setMargin(logoutButton, new Insets(0, 25, 0, 0)); 
         stickyButtonContainer.add(logoutButton,0,0);
 
-        // Create buttons and add them to the gridPane
         Button checkoutButton = new Button("Checkout");
         checkoutButton.setStyle(
             "-fx-min-height: 45px; " +
@@ -180,30 +171,22 @@ public class MenuPage extends BaseScene implements Showable {
             "-fx-text-fill: white;"
         );
         checkoutButton.setOnAction(event -> {
-            
             try {
                 if (checkoutButton != null) {
                     CartPage cartPageScene = new CartPage(stage, listOrder, userId);
                     cartPageScene.show();
                 }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
-        // GridPane.setMargin(checkoutButton, new Insets(0, 0, 0, 25));
+
         stickyButtonContainer.add(checkoutButton, 1, 0);
 
-        
-
-        // Set the alignment and padding for the gridPane
         stickyButtonContainer.setHgap(25);
         stickyButtonContainer.setAlignment(Pos.CENTER);
         stickyButtonContainer.setPadding(new Insets(10));
 
-        // Set the constraints for the button
-        // GridPane.setHalignment(orderButton, HPos.CENTER);
-
-        // Add the gridPane to the BorderPane
         BorderPane layout = new BorderPane();
         layout.setTop(headerContainer);
         layout.setCenter(menuContainer);
