@@ -102,7 +102,7 @@ public class MenuPage extends BaseScene implements Showable {
                             "-fx-background-radius: 15px;" +
                             "-fx-border-radius: 15px; " +
                             "-fx-border-width: 2px; " +
-                            "-fx-border-color: #000000;");
+                            "-fx-border-color: #F2911F;");
 
             menuContainer.add(data[i], col, row);
 
@@ -170,7 +170,7 @@ public class MenuPage extends BaseScene implements Showable {
         checkoutButton.setStyle(
             "-fx-min-height: 45px; " +
             "-fx-min-width: 220px; " +
-            "-fx-background-color: #58585B;" +
+            "-fx-background-color: #F2911F;" +
             "-fx-border-color: none;" +
             "-fx-background-radius: 10;"+
             "-fx-font-family: 'Jaldi';" +
