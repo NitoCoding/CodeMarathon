@@ -132,7 +132,7 @@ public class UserController {
         try {
             conn = Connector.getConnection();
             // int id = IdDatabaseGenerator.generateId("userId", "tb_User");
-            String queryOrder = "Select * from tb_User)";
+            String queryOrder = "Select * from tb_User";
             statement = conn.prepareStatement(queryOrder);
             // System.out.println(id);
             // System.out.println(nama);
