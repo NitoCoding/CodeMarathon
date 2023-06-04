@@ -20,7 +20,7 @@ public class UserController {
         int id = 0;
         try {
             conn = Connector.getConnection();
-            String queryOrder = "SELECT * FROM tb_User WHERE userNama = ? AND userPassword = ? AND (userRole != 'admin' OR userRole IS NULL) LIMIT 1";
+            String queryOrder = "SELECT * FROM tb_User WHERE userNama = ? AND userPassword = ? LIMIT 1";
             statement = conn.prepareStatement(queryOrder);
             statement.setString(1, nama);
             statement.setString(2, password);
