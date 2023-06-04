@@ -90,7 +90,7 @@ public class UserController {
         int rowsAffected = 0;
         try {
 
-            if(UserController.checkUser(nama)){
+            if(!UserController.checkUser(nama)){
                 conn = Connector.getConnection();
                 int id = IdDatabaseGenerator.generateId("userId", "tb_User");
                 String queryOrder = "INSERT INTO tb_User VALUES (?, ?, ?, 'user')";
@@ -102,6 +102,7 @@ public class UserController {
                 statement.setString(2, nama);
                 statement.setString(3, password);
                 rowsAffected += statement.executeUpdate();
+                // System.out.println(rowsAffected);
             }
 
 
