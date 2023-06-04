@@ -14,9 +14,9 @@ import mdbudget.utils.Connector;
  * menuController
  */
 public class MenuController {
-    static Connection conn;
-    static PreparedStatement statement;
-    static ResultSet resultSet;
+    private static Connection conn;
+    private static PreparedStatement statement;
+    private static ResultSet resultSet;
 
     public static ArrayList<BaseModel> getAllDataMenus(){
         ArrayList<BaseModel> menus = null;

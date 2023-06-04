@@ -1,10 +1,10 @@
 package mdbudget.models;
 
 public class Menu extends BaseModel {
-    public int menuId;
-    public String menuNama;
-    public int menuHarga;
-    public String menuGambar;
+    private int menuId;
+    private String menuNama;
+    private int menuHarga;
+    private String menuGambar;
     
     public Menu(int id, String nama, int menuHarga, String gambar) {
         this.menuId = id;

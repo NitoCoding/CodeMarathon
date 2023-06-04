@@ -16,9 +16,9 @@ import mdbudget.utils.DateGenerator;
 import mdbudget.utils.IdDatabaseGenerator;
 
 public class OrderController {
-    static Connection conn;
-    static PreparedStatement statement;
-    static ResultSet resultSet;
+    private static Connection conn;
+    private static PreparedStatement statement;
+    private static ResultSet resultSet;
 
     public static boolean addOrder(ArrayList<OrderDetail> order, int total, int userId) {
         boolean status = false;

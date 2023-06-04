@@ -12,9 +12,9 @@ import mdbudget.utils.Connector;
 import mdbudget.utils.IdDatabaseGenerator;
 
 public class UserController {
-    static Connection conn;
-    static PreparedStatement statement;
-    static ResultSet resultSet;
+    private static Connection conn;
+    private static PreparedStatement statement;
+    private static ResultSet resultSet;
 
     public static int loginUser(String nama, String password) {
         int id = 0;
@@ -126,7 +126,7 @@ public class UserController {
         }
         return rowsAffected;
     }
-    
+
     public static Boolean checkUser(String nama) {
         Boolean status = false;
         try {

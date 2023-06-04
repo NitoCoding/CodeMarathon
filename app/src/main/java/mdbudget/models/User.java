@@ -1,19 +1,28 @@
 package mdbudget.models;
 
 public class User extends BaseModel{
-    int userId;
-    String userNama;
-    String userPassword;
-    String userRole;
+    private int userId;
+    
+    private String userNama;
+    private String userPassword;
+    private String userRole;
+    
+    public int getUserId() {
+        return userId;
+    }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+    
     public String getUserRole() {
         return userRole;
     }
-
+    
     public void setUserRole(String userRole) {
         this.userRole = userRole;
     }
-
+    
     public User(String userNama, String userPassword) {
         this.userNama = userNama;
         this.userPassword = userPassword;
