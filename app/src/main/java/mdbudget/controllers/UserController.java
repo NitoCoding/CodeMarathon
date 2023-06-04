@@ -89,19 +89,22 @@ public class UserController {
     public static int registerUser(String nama, String password) {
         int rowsAffected = 0;
         try {
-            conn = Connector.getConnection();
-            int id = IdDatabaseGenerator.generateId("userId", "tb_User");
-            String queryOrder = "INSERT INTO tb_User VALUES (?, ?, ?, null)";
-            statement = conn.prepareStatement(queryOrder);
-            statement.setInt(1, id);
-            statement.setString(2, nama);
-            statement.setString(3, password);
-            rowsAffected = statement.executeUpdate();
 
-
-            if (resultSet.next()) {
-                rowsAffected += resultSet.getInt("userId");
+            if(UserController.checkUser(nama)){
+                conn = Connector.getConnection();
+                int id = IdDatabaseGenerator.generateId("userId", "tb_User");
+                String queryOrder = "INSERT INTO tb_User VALUES (?, ?, ?, 'user')";
+                statement = conn.prepareStatement(queryOrder);
+                // System.out.println(id);
+                // System.out.println(nama);
+                // System.out.println(password);
+                statement.setInt(1, id);
+                statement.setString(2, nama);
+                statement.setString(3, password);
+                rowsAffected += statement.executeUpdate();
             }
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -122,6 +125,44 @@ public class UserController {
             }
         }
         return rowsAffected;
+    }
+    
+    public static Boolean checkUser(String nama) {
+        Boolean status = false;
+        try {
+            conn = Connector.getConnection();
+            // int id = IdDatabaseGenerator.generateId("userId", "tb_User");
+            String queryOrder = "Select * from tb_User)";
+            statement = conn.prepareStatement(queryOrder);
+            // System.out.println(id);
+            // System.out.println(nama);
+            // System.out.println(password);
+            resultSet = statement.executeQuery();
+
+            if(resultSet == null || !resultSet.next()){
+                status = true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the database connections
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Handle the exception or log the error
+                e.printStackTrace();
+            }
+        }
+        return status;
     }
 
     public static User getUserById(int id){
