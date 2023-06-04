@@ -76,16 +76,15 @@ public class ManagementPage extends BaseScene implements Showable {
         tableSelector.getItems().add("Menus Table");
         tableSelector.getItems().add("Users Table");
 
-        
         GridPane tableContainer = new GridPane();
         TableView<BaseModel> modelTable = new TableView<>();
         tableContainer.setHgap(20);
         tableContainer.setAlignment(Pos.TOP_CENTER);
-        tableContainer.add(modelTable,0, 0);
+        tableContainer.add(modelTable, 0, 0);
 
         contentContainer.add(labelSelector, 0, 0);
         contentContainer.add(tableSelector, 1, 0);
-        contentContainer.add(tableContainer, 0, 1, 2,1);
+        contentContainer.add(tableContainer, 0, 1, 2, 1);
 
         tableSelector.setOnAction((event) -> {
             int selectedIndex = tableSelector.getSelectionModel().getSelectedIndex() + 1;
@@ -131,7 +130,7 @@ public class ManagementPage extends BaseScene implements Showable {
                     }
 
                     TableView<Menu> tableView = createTableView(menuData, columns);
-                    tableContainer.add(tableView, 0,0,2,1);
+                    tableContainer.add(tableView, 0, 0, 2, 1);
                 } else if (dataTable.get(0) instanceof Order) {
                     List<TableColumn<Order, ?>> columns = new ArrayList<>();
 
@@ -155,7 +154,7 @@ public class ManagementPage extends BaseScene implements Showable {
                     }
 
                     TableView<Order> tableView = createTableView(orderData, columns);
-                    tableContainer.add(tableView, 0,0,2,1);
+                    tableContainer.add(tableView, 0, 0, 2, 1);
                 } else if (dataTable.get(0) instanceof User) {
                     List<TableColumn<User, ?>> columns = new ArrayList<>();
 
@@ -178,7 +177,7 @@ public class ManagementPage extends BaseScene implements Showable {
                     }
 
                     TableView<User> tableView = createTableView(orderData, columns);
-                    tableContainer.add(tableView, 0,0,2,1);
+                    tableContainer.add(tableView, 0, 0, 2, 1);
                 }
             }
         });
@@ -187,33 +186,28 @@ public class ManagementPage extends BaseScene implements Showable {
 
         Button logoutButton = new Button("Log out");
         logoutButton.setStyle(
-            "-fx-max-height: 45px; " +
-            "-fx-min-width: 100px; " +
-            "-fx-background-color: #D96161;" +
-            "-fx-border-color: none;" +
-            "-fx-background-radius: 10;"+
-            "-fx-font-family: 'Jaldi';" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: 400;" +
-            "-fx-line-height: 34px;" +
-            "-fx-text-fill: white;"
-        );
+                "-fx-min-height: 45px; " +
+                        "-fx-min-width: 220px; " +
+                        "-fx-background-color: #D96161;" +
+                        "-fx-border-color: none;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-font-family: 'Jaldi';" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: 400;" +
+                        "-fx-line-height: 34px;" +
+                        "-fx-text-fill: white;");
         logoutButton.setOnAction(event -> {
             LandingPage landingPageScene = new LandingPage(stage);
             landingPageScene.show();
         }
 
         );
-        // GridPane.setMargin(logoutButton, new Insets(0, 25, 0, 0)); 
-        stickyButtonContainer.add(logoutButton,0,0);
-
-
-        // Set the alignment and padding for the gridPane
         stickyButtonContainer.setHgap(25);
         stickyButtonContainer.setAlignment(Pos.CENTER);
         stickyButtonContainer.setPadding(new Insets(10));
+        GridPane.setMargin(logoutButton, new Insets(0, 25, 0, 0));
+        stickyButtonContainer.add(logoutButton, 0, 0);
 
-        // Add the gridPane to the BorderPane
         BorderPane layout = new BorderPane();
         layout.setTop(headerContainer);
         layout.setCenter(contentContainer);
