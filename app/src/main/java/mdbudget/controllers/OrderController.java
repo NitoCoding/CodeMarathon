@@ -87,20 +87,20 @@ public class OrderController {
             PreparedStatement statement = conn.prepareStatement(queryOrder);
             resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
-                while (resultSet.next()) {
-                    int orderId = resultSet.getInt("orderId");
-                    int orderTotal = resultSet.getInt("orderTotal");
-                    User orderUser = UserController.getUserById(resultSet.getInt("orderUserId"));
-                    String orderDate = resultSet.getString("orderDate");
 
-                    Order order = new Order(orderId, orderTotal, orderUser, orderDate);
+            while (resultSet.next()) {
+                int orderId = resultSet.getInt("orderId");
+                int orderTotal = resultSet.getInt("orderTotal");
+                User orderUser = UserController.getUserById(resultSet.getInt("orderUserId"));
+                String orderDate = resultSet.getString("orderDate");
 
-                    orders.add(order);
-                }
+                Order order = new Order(orderId, orderTotal, orderUser, orderDate);
+
+                orders.add(order);
+            }
                 // orderId, orderTotal, orderUserId, orderDate
 
-            }
+
 
         } catch (
 
