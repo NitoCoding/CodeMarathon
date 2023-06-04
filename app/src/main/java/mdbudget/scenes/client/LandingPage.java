@@ -128,9 +128,10 @@ public class LandingPage extends BaseScene implements Showable {
             String formPassword = password.getText();
             
             try {
-                int user = UserController.registerUser(formUsername, formPassword);
+                UserController.registerUser(formUsername, formPassword);
 
                 System.out.println("berhasil");
+
             } catch (Exception e) {
                 // TODO: handle exception
             }
