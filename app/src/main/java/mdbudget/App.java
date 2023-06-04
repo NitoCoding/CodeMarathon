@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 import mdbudget.scenes.client.LandingPage;
 
 public class App extends Application {
-    Stage mainStage;
-    final double widthPanel = 400;
-    final double heightPanel = 800;
+    protected Stage mainStage;
+    protected final double widthPanel = 400;
+    protected final double heightPanel = 800;
 
     public static void main(String[] args) {
         System.out.println("Launching...");
