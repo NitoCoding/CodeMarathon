@@ -11,7 +11,6 @@ import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
 
-
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,7 +30,7 @@ public class CartPage extends BaseScene implements Showable {
     private int userId;
     private int total;
 
-    CartPage(Stage stage, ArrayList<OrderDetail> listOrder,int userId){
+    CartPage(Stage stage, ArrayList<OrderDetail> listOrder, int userId) {
         super(stage);
         this.listOrder = listOrder;
         this.userId = userId;
@@ -39,22 +38,22 @@ public class CartPage extends BaseScene implements Showable {
     }
 
     @Override
-    public void show(){
+    public void show() {
         GridPane headerContainer = new GridPane();
 
         Label cartLabel = new Label("Checkout List");
         cartLabel.setStyle(
-            "-fx-font-family: 'Jacques Francois';" +
-            "-fx-font-size: 40px;" +
-            "-fx-font-weight: 400;" +
-            "-fx-line-height: 53px;" +
-            "-fx-letter-spacing: 0em;" +
-            "-fx-text-alignment: center;" +
-            "-fx-text-fill: #385748;"
-            // "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 0px, 4px, 4px);"
+                "-fx-font-family: 'Jacques Francois';" +
+                        "-fx-font-size: 40px;" +
+                        "-fx-font-weight: 400;" +
+                        "-fx-line-height: 53px;" +
+                        "-fx-letter-spacing: 0em;" +
+                        "-fx-text-alignment: center;" +
+                        "-fx-text-fill: #385748;"
+        // "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 0px, 4px, 4px);"
         );
 
-        headerContainer.add(cartLabel,0,0);
+        headerContainer.add(cartLabel, 0, 0);
         headerContainer.setAlignment(Pos.TOP_CENTER);
 
         // System.out.println("Number of orders: " + listOrder.size());
@@ -73,7 +72,6 @@ public class CartPage extends BaseScene implements Showable {
         TableView<OrderDetail> cartTable = new TableView<>();
         // cartTable.getStyleClass().add(getClass().getResource("/style/style.css").toExternalForm());
         // cartTable.setId("my-table");
-
 
         TableColumn<OrderDetail, String> menuNameCol = new TableColumn<>("Name");
         menuNameCol.setCellValueFactory(
@@ -123,11 +121,12 @@ public class CartPage extends BaseScene implements Showable {
 
                 minusButton.setOnAction(event -> {
                     OrderDetail order = getTableView().getItems().get(getIndex());
-                    if (order.getOrderDetailMenuAmount() == 1) {
-                        orders.remove(order);
-                    } else {
+                    System.out.println(order.getOrderDetailMenuAmount());
+                    System.out.println(orders);
+                    order.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount() - 1);
 
-                        order.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount() - 1);
+                    if (order.getOrderDetailMenuAmount() == 0) {
+                        orders.remove(order);
                     }
 
                     int index = listOrder.indexOf(order);
@@ -135,7 +134,13 @@ public class CartPage extends BaseScene implements Showable {
                         OrderDetail updatedOrder = listOrder.get(index);
                         updatedOrder.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount());
                         // Update any other properties if necessary
-                        listOrder.set(index, updatedOrder);
+                        if(updatedOrder.getOrderDetailMenuAmount() != 0){
+                            listOrder.set(index, updatedOrder);
+                        } else{
+                            // System.out.println(listOrder.get(index));
+                            listOrder.remove(index);
+                        }
+
                     }
                     cartTable.refresh();
                     calculateTotalPrice();
@@ -176,10 +181,10 @@ public class CartPage extends BaseScene implements Showable {
             }
         });
 
-        menuNameCol.setPrefWidth(110); 
-        menuQuantityCol.setPrefWidth(65); 
-        menuPriceCol.setPrefWidth(70); 
-        menuActionCol.setPrefWidth(90); 
+        menuNameCol.setPrefWidth(110);
+        menuQuantityCol.setPrefWidth(65);
+        menuPriceCol.setPrefWidth(70);
+        menuActionCol.setPrefWidth(90);
 
         menuNameCol.setResizable(false);
         menuQuantityCol.setResizable(false);
@@ -207,58 +212,56 @@ public class CartPage extends BaseScene implements Showable {
         tableContainer.add(cartTable, 0, 0);
         tableContainer.add(totalPriceLabel, 0, 1);
 
-
-        
-        
         GridPane stickyButtonContainer = new GridPane();
 
         Button menuPageButton = new Button("Back to Menu");
         menuPageButton.setStyle(
-            "-fx-min-height: 45px; " +
-            "-fx-min-width: 170px; " +
-            "-fx-background-color: #58585B;" +
-            "-fx-border-color: none;" +
-            "-fx-background-radius: 10;"+
-            "-fx-font-family: 'Jaldi';" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: 400;" +
-            "-fx-line-height: 34px;" +
-            "-fx-text-fill: white;"
-        );
+                "-fx-min-height: 45px; " +
+                        "-fx-min-width: 170px; " +
+                        "-fx-background-color: #58585B;" +
+                        "-fx-border-color: none;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-font-family: 'Jaldi';" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: 400;" +
+                        "-fx-line-height: 34px;" +
+                        "-fx-text-fill: white;");
         menuPageButton.setOnAction(event -> {
+            // listOrder.clear();
             MenuPage menuPageScene = new MenuPage(stage, listOrder, userId);
             menuPageScene.show();
-        } 
+        }
 
         );
-        // GridPane.setMargin(logoutButton, new Insets(0, 25, 0, 0)); 
-        stickyButtonContainer.add(menuPageButton,0,0);
+        // GridPane.setMargin(logoutButton, new Insets(0, 25, 0, 0));
+        stickyButtonContainer.add(menuPageButton, 0, 0);
 
         // Create buttons and add them to the gridPane
         Button orderButton = new Button("Order");
         orderButton.setStyle(
-            "-fx-min-height: 45px; " +
-            "-fx-min-width: 170px; " +
-            "-fx-background-color: #58585B;" +
-            "-fx-border-color: none;" +
-            "-fx-background-radius: 10;"+
-            "-fx-font-family: 'Jaldi';" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: 400;" +
-            "-fx-line-height: 34px;" +
-            "-fx-text-fill: white;"
-        );
-        orderButton.setOnAction(event -> {
-            CartPage cartPageScene = new CartPage(stage, listOrder,userId);
-            cartPageScene.show();
-        });
+                "-fx-min-height: 45px; " +
+                        "-fx-min-width: 170px; " +
+                        "-fx-background-color: #58585B;" +
+                        "-fx-border-color: none;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-font-family: 'Jaldi';" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: 400;" +
+                        "-fx-line-height: 34px;" +
+                        "-fx-text-fill: white;");
+        // orderButton.setOnAction(event -> {
+        // CartPage cartPageScene = new CartPage(stage, listOrder,userId);
+        // cartPageScene.show();
+        // });
 
         orderButton.setOnAction(event -> {
             try {
-                boolean status = OrderController.addOrder(listOrder, total, userId);
-                if(status ){
-                    LandingPage landingPageScene = new LandingPage(stage);
-                    landingPageScene.show();
+                if(listOrder.size() > 0){
+                    boolean status = OrderController.addOrder(listOrder, total, userId);
+                    if (status) {
+                        MenuPage menuPageScene = new MenuPage(stage, listOrder, userId);
+                        menuPageScene.show();
+                    }
                 }
             } catch (Exception e) {
                 // TODO: handle exception
@@ -266,8 +269,6 @@ public class CartPage extends BaseScene implements Showable {
         });
         // GridPane.setMargin(checkoutButton, new Insets(0, 0, 0, 25));
         stickyButtonContainer.add(orderButton, 1, 0);
-
-        
 
         // Set the alignment and padding for the gridPane
         stickyButtonContainer.setHgap(25);
