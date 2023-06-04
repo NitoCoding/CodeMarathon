@@ -259,7 +259,7 @@ public class CartPage extends BaseScene implements Showable {
                 if(listOrder.size() > 0){
                     boolean status = OrderController.addOrder(listOrder, total, userId);
                     if (status) {
-                        MenuPage menuPageScene = new MenuPage(stage, listOrder, userId);
+                        MenuPage menuPageScene = new MenuPage(stage, userId);
                         menuPageScene.show();
                     }
                 }
