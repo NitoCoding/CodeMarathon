@@ -97,10 +97,10 @@ public class LandingPage extends BaseScene implements Showable {
         loginButton.setOnAction(action -> {
             String formUsername = username.getText();
             String formPassword = password.getText();
-            System.out.println(formUsername + " " + formPassword);
+            // System.out.println(formUsername + " " + formPassword);
 
             userId = UserController.loginUser(formUsername, formPassword);
-            System.out.println(userId);
+            // System.out.println(userId);
 
             if (userId != 0) {
                 MenuPage menuPageScene = new MenuPage(stage, userId);
@@ -126,12 +126,16 @@ public class LandingPage extends BaseScene implements Showable {
         registerButton.setOnAction(action -> {
             String formUsername = username.getText();
             String formPassword = password.getText();
+            
+            try {
+                int user = UserController.registerUser(formUsername, formPassword);
 
-            int user = UserController.registerUser(formUsername, formPassword);
-
-            if (user != 0) {
-                
+                System.out.println("berhasil");
+            } catch (Exception e) {
+                // TODO: handle exception
             }
+
+
 
             // loginUser(formUsername,formPassword);
         });
