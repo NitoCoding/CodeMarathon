@@ -77,7 +77,7 @@ public class MenuPage extends BaseScene implements Showable {
             }
         }
         for (Menu menu : menuList) {
-            System.out.println(menu.getMenuGambar());
+            // System.out.println(menu.getMenuGambar());
             ImageView menuGambar = new ImageView(ImageGenerator.generate(menu.getMenuGambar()+".png", itemLogoWidth, itemLogoHeight));
             Label menuNama = new Label(menu.getMenuNama());
             menuNama.setWrapText(true);
@@ -101,6 +101,17 @@ public class MenuPage extends BaseScene implements Showable {
                             "-fx-border-radius: 15px; " +
                             "-fx-border-width: 2px; " +
                             "-fx-border-color: #F2911F;");
+            
+                            if (listOrder.size()> 0) {
+                                for (OrderDetail order : listOrder) {
+                                    System.out.println(order.getOrderDetailMenu().getMenuId());
+                                    int test = menu.getMenuId();
+                                    System.out.println(test);
+                                    if (test == order.getOrderDetailMenu().getMenuId()) {
+                                        data[i].setStyle(data[i].getStyle() + "-fx-border-color: #00ff00;");
+                                    }
+                                }
+                            }
 
             menuContainer.add(data[i], col, row);
 
@@ -115,8 +126,10 @@ public class MenuPage extends BaseScene implements Showable {
             data[i].setOnAction(event -> {
                 boolean existsInOrder = false;
                 for (OrderDetail order : listOrder) {
-                    Menu test = order.getOrderDetailMenu();
-                    if (test.equals(menu)) {
+                    System.out.println(order.getOrderDetailMenu().getMenuId());
+                    int test = menu.getMenuId();
+                    System.out.println(test);
+                    if (test == order.getOrderDetailMenu().getMenuId()) {
                         existsInOrder = true;
                         listOrder.remove(order);
                         break;
