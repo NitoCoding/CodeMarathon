@@ -108,8 +108,8 @@ public class ManagementPage extends BaseScene implements Showable {
                     break;
             }
 
-            System.out.println(selectedIndex);
-            System.out.println(dataTable);
+            // System.out.println(selectedIndex);
+            // System.out.println(dataTable);
 
             if (dataTable != null && !dataTable.isEmpty() && dataTable.get(0) != null) {
                 if (dataTable.get(0) instanceof Menu) {
@@ -123,7 +123,6 @@ public class ManagementPage extends BaseScene implements Showable {
                     menuPriceCol.setCellValueFactory(new PropertyValueFactory<>("menuHarga"));
                     columns.add(menuPriceCol);
 
-                    // Create and populate ObservableList<Menu> with data
                     ObservableList<Menu> menuData = FXCollections.observableArrayList();
                     for (BaseModel model : dataTable) {
                         menuData.add((Menu) model);
@@ -147,7 +146,6 @@ public class ManagementPage extends BaseScene implements Showable {
                     orderDateCol.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
                     columns.add(orderDateCol);
 
-                    // Create and populate ObservableList<Order> with data
                     ObservableList<Order> orderData = FXCollections.observableArrayList();
                     for (BaseModel model : dataTable) {
                         orderData.add((Order) model);
@@ -220,8 +218,6 @@ public class ManagementPage extends BaseScene implements Showable {
 
     public <T extends BaseModel> TableView<T> createTableView(ObservableList<T> data, List<TableColumn<T, ?>> columns) {
         TableView<T> tableView = new TableView<>();
-        // tableView.getStyleClass().add(getClass().getResource("/style/style.css").toExternalForm());
-        // tableView.setId("my-table");
 
         tableView.getColumns().addAll(columns);
 
