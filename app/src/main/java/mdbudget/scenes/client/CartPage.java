@@ -58,7 +58,9 @@ public class CartPage extends BaseScene implements Showable {
 
         // System.out.println("Number of orders: " + listOrder.size());
         GridPane tableContainer = new GridPane();
-        tableContainer.setHgap(20);
+
+        tableContainer.setPadding(new Insets(0, 5, 0, 5));
+        // tableContainer.setHgap(20);
         tableContainer.setAlignment(Pos.TOP_CENTER);
 
         ObservableList<OrderDetail> orders = FXCollections.observableArrayList();
@@ -71,6 +73,8 @@ public class CartPage extends BaseScene implements Showable {
 
         TableView<OrderDetail> cartTable = new TableView<>();
         // cartTable.getStyleClass().add(getClass().getResource("/style/style.css").toExternalForm());
+        // cartTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        // System.out.println(cartTable.widthProperty());
         // cartTable.setId("my-table");
 
         TableColumn<OrderDetail, String> menuNameCol = new TableColumn<>("Name");
@@ -99,11 +103,18 @@ public class CartPage extends BaseScene implements Showable {
                 totalPriceLabel.setText("Total: " + Double.toString(totalPrice));
             }
 
-            private final Button plusButton = new Button("+");
-            private final Button minusButton = new Button("-");
-            private final Button deleteButton = new Button("!");
+            private Button plusButton = new Button("+");
+            private Button minusButton = new Button("-");
+            private Button deleteButton = new Button("!");
 
             {
+                plusButton.setPrefWidth(30);
+                plusButton.setPrefHeight(30);
+                minusButton.setPrefWidth(30);
+                minusButton.setPrefHeight(30);
+                deleteButton.setPrefWidth(30);
+                deleteButton.setPrefHeight(30);
+
                 plusButton.setOnAction(event -> {
                     OrderDetail order = getTableView().getItems().get(getIndex());
 
@@ -121,8 +132,8 @@ public class CartPage extends BaseScene implements Showable {
 
                 minusButton.setOnAction(event -> {
                     OrderDetail order = getTableView().getItems().get(getIndex());
-                    System.out.println(order.getOrderDetailMenuAmount());
-                    System.out.println(orders);
+                    // System.out.println(order.getOrderDetailMenuAmount());
+                    // System.out.println(orders);
                     order.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount() - 1);
 
                     if (order.getOrderDetailMenuAmount() == 0) {
@@ -134,9 +145,9 @@ public class CartPage extends BaseScene implements Showable {
                         OrderDetail updatedOrder = listOrder.get(index);
                         updatedOrder.setOrderDetailMenuAmount(order.getOrderDetailMenuAmount());
                         // Update any other properties if necessary
-                        if(updatedOrder.getOrderDetailMenuAmount() != 0){
+                        if (updatedOrder.getOrderDetailMenuAmount() != 0) {
                             listOrder.set(index, updatedOrder);
-                        } else{
+                        } else {
                             // System.out.println(listOrder.get(index));
                             listOrder.remove(index);
                         }
@@ -181,10 +192,13 @@ public class CartPage extends BaseScene implements Showable {
             }
         });
 
-        menuNameCol.setPrefWidth(110);
-        menuQuantityCol.setPrefWidth(65);
-        menuPriceCol.setPrefWidth(70);
-        menuActionCol.setPrefWidth(90);
+        // System.out.println(tableContainer.widthProperty().divide(4).doubleValue());
+        menuNameCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(4).add(25));
+        menuQuantityCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(4).subtract(20));
+        menuPriceCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(4).subtract(20));
+        menuActionCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(4));
+
+        cartTable.prefWidthProperty().bind(tableContainer.widthProperty());
 
         menuNameCol.setResizable(false);
         menuQuantityCol.setResizable(false);
@@ -256,7 +270,7 @@ public class CartPage extends BaseScene implements Showable {
 
         orderButton.setOnAction(event -> {
             try {
-                if(listOrder.size() > 0){
+                if (listOrder.size() > 0) {
                     boolean status = OrderController.addOrder(listOrder, total, userId);
                     if (status) {
                         MenuPage menuPageScene = new MenuPage(stage, userId);
