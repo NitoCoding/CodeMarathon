@@ -90,7 +90,7 @@ public class UserController {
         int rowsAffected = 0;
         try {
 
-            if(!UserController.checkUser(nama)){
+            if(UserController.checkUser(nama)){
                 conn = Connector.getConnection();
                 int id = IdDatabaseGenerator.generateId("userId", "tb_User");
                 String queryOrder = "INSERT INTO tb_User VALUES (?, ?, ?, 'user')";
@@ -133,14 +133,15 @@ public class UserController {
         try {
             conn = Connector.getConnection();
             // int id = IdDatabaseGenerator.generateId("userId", "tb_User");
-            String queryOrder = "Select * from tb_User";
+            String queryOrder = "SELECT * FROM tb_User WHERE userNama = ?";
             statement = conn.prepareStatement(queryOrder);
             // System.out.println(id);
             // System.out.println(nama);
-            // System.out.println(password);
+            statement.setString(1,nama);
             resultSet = statement.executeQuery();
 
             if(resultSet == null || !resultSet.next()){
+                System.out.println(resultSet);
                 status = true;
             }
 
