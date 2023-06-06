@@ -20,6 +20,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import mdbudget.controllers.MenuController;
 import mdbudget.controllers.OrderController;
@@ -31,7 +33,7 @@ import mdbudget.models.Order;
 // import mdbudget.models.OrderDetail;
 import mdbudget.models.User;
 import mdbudget.scenes.BaseScene;
-import mdbudget.scenes.client.LandingPage;
+import mdbudget.scenes.client.LoginPage;
 
 public class ManagementPage extends BaseScene implements Showable {
     private ArrayList<BaseModel> dataTable;
@@ -64,32 +66,51 @@ public class ManagementPage extends BaseScene implements Showable {
         headerContainer.setAlignment(Pos.TOP_CENTER);
 
         GridPane contentContainer = new GridPane();
-        contentContainer.setHgap(20);
+        contentContainer.setPadding(new Insets(0, 5, 0, 5));
         contentContainer.setVgap(20);
-        contentContainer.setAlignment(Pos.TOP_CENTER);
+        contentContainer.setAlignment(Pos.TOP_LEFT);
+
+        GridPane selectorContainer = new GridPane();
+        selectorContainer.setHgap(20);
 
         Label labelSelector = new Label("Choose table to look");
 
         ComboBox<String> tableSelector = new ComboBox<>();
+
+        selectorContainer.add(labelSelector, 0, 0);
+        selectorContainer.add(tableSelector, 1, 0);
+        tableSelector.setStyle(
+                "-fx-background-color: #F2911F;" +
+                        "-fx-border-color: none;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-font-family: 'Jaldi';" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: 400;" +
+                        "-fx-line-height: 34px;" +
+                        "-fx-text-fill: white;");
+        tableSelector.setMinWidth(115);
+        tableSelector.setMinHeight(45);
 
         tableSelector.getItems().add("Orders Table");
         tableSelector.getItems().add("Menus Table");
         tableSelector.getItems().add("Users Table");
 
         GridPane tableContainer = new GridPane();
+        // tableContainer.setPadding(new Insets(0, 5, 0, 5));
         TableView<BaseModel> modelTable = new TableView<>();
+        modelTable.prefWidthProperty().bind(tableContainer.widthProperty());
+        GridPane.setHgrow(tableContainer, Priority.ALWAYS);
         tableContainer.setHgap(20);
         tableContainer.setAlignment(Pos.TOP_CENTER);
         tableContainer.add(modelTable, 0, 0);
 
-        contentContainer.add(labelSelector, 0, 0);
-        contentContainer.add(tableSelector, 1, 0);
-        contentContainer.add(tableContainer, 0, 1, 2, 1);
+        contentContainer.add(selectorContainer, 0, 0);
+        contentContainer.add(tableContainer, 0, 1);
 
         tableSelector.setOnAction((event) -> {
             int selectedIndex = tableSelector.getSelectionModel().getSelectedIndex() + 1;
 
-            tableContainer.getChildren().clear(); // Clear the existing content in the table container
+            tableContainer.getChildren().clear();
 
             switch (selectedIndex) {
                 case 1:
@@ -123,6 +144,14 @@ public class ManagementPage extends BaseScene implements Showable {
                     menuPriceCol.setCellValueFactory(new PropertyValueFactory<>("menuHarga"));
                     columns.add(menuPriceCol);
 
+                    TableColumn<Menu, String> menuPicCol = new TableColumn<>("Picture");
+                    menuPicCol.setCellValueFactory(new PropertyValueFactory<>("menuGambar"));
+                    columns.add(menuPicCol);
+
+                    menuNameCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(3));
+                    menuPriceCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(3).subtract(5));
+                    menuPicCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(3));
+
                     ObservableList<Menu> menuData = FXCollections.observableArrayList();
                     for (BaseModel model : dataTable) {
                         menuData.add((Menu) model);
@@ -130,6 +159,7 @@ public class ManagementPage extends BaseScene implements Showable {
 
                     TableView<Menu> tableView = createTableView(menuData, columns);
                     tableContainer.add(tableView, 0, 0, 2, 1);
+                    tableView.prefWidthProperty().bind(tableContainer.widthProperty());
                 } else if (dataTable.get(0) instanceof Order) {
                     List<TableColumn<Order, ?>> columns = new ArrayList<>();
 
@@ -146,6 +176,10 @@ public class ManagementPage extends BaseScene implements Showable {
                     orderDateCol.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
                     columns.add(orderDateCol);
 
+                    orderUserCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(3));
+                    orderTotalCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(3).subtract(5));
+                    orderDateCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(3));
+
                     ObservableList<Order> orderData = FXCollections.observableArrayList();
                     for (BaseModel model : dataTable) {
                         orderData.add((Order) model);
@@ -153,6 +187,7 @@ public class ManagementPage extends BaseScene implements Showable {
 
                     TableView<Order> tableView = createTableView(orderData, columns);
                     tableContainer.add(tableView, 0, 0, 2, 1);
+                    tableView.prefWidthProperty().bind(tableContainer.widthProperty());
                 } else if (dataTable.get(0) instanceof User) {
                     List<TableColumn<User, ?>> columns = new ArrayList<>();
 
@@ -168,6 +203,10 @@ public class ManagementPage extends BaseScene implements Showable {
                     userRoleCol.setCellValueFactory(new PropertyValueFactory<>("userRole"));
                     columns.add(userRoleCol);
 
+                    userNamaCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(3));
+                    userPassCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(3).subtract(5));
+                    userRoleCol.prefWidthProperty().bind(tableContainer.widthProperty().divide(3));
+
                     // Create and populate ObservableList<Order> with data
                     ObservableList<User> orderData = FXCollections.observableArrayList();
                     for (BaseModel model : dataTable) {
@@ -176,6 +215,8 @@ public class ManagementPage extends BaseScene implements Showable {
 
                     TableView<User> tableView = createTableView(orderData, columns);
                     tableContainer.add(tableView, 0, 0, 2, 1);
+
+                    tableView.prefWidthProperty().bind(tableContainer.widthProperty());
                 }
             }
         });
@@ -195,15 +236,15 @@ public class ManagementPage extends BaseScene implements Showable {
                         "-fx-line-height: 34px;" +
                         "-fx-text-fill: white;");
         logoutButton.setOnAction(event -> {
-            LandingPage landingPageScene = new LandingPage(stage);
-            landingPageScene.show();
+            LoginPage loginPageScene = new LoginPage(stage);
+            loginPageScene.show();
         }
 
         );
         stickyButtonContainer.setHgap(25);
         stickyButtonContainer.setAlignment(Pos.CENTER);
         stickyButtonContainer.setPadding(new Insets(10));
-        GridPane.setMargin(logoutButton, new Insets(0, 25, 0, 0));
+        // GridPane.setMargin(logoutButton, new Insets(0, 25, 0, 0));
         stickyButtonContainer.add(logoutButton, 0, 0);
 
         BorderPane layout = new BorderPane();
