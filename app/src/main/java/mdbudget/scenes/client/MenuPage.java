@@ -104,9 +104,9 @@ public class MenuPage extends BaseScene implements Showable {
             
                             if (listOrder.size()> 0) {
                                 for (OrderDetail order : listOrder) {
-                                    System.out.println(order.getOrderDetailMenu().getMenuId());
+                                    // System.out.println(order.getOrderDetailMenu().getMenuId());
                                     int test = menu.getMenuId();
-                                    System.out.println(test);
+                                    // System.out.println(test);
                                     if (test == order.getOrderDetailMenu().getMenuId()) {
                                         data[i].setStyle(data[i].getStyle() + "-fx-border-color: #00ff00;");
                                     }
@@ -126,9 +126,9 @@ public class MenuPage extends BaseScene implements Showable {
             data[i].setOnAction(event -> {
                 boolean existsInOrder = false;
                 for (OrderDetail order : listOrder) {
-                    System.out.println(order.getOrderDetailMenu().getMenuId());
+                    // System.out.println(order.getOrderDetailMenu().getMenuId());
                     int test = menu.getMenuId();
-                    System.out.println(test);
+                    // System.out.println(test);
                     if (test == order.getOrderDetailMenu().getMenuId()) {
                         existsInOrder = true;
                         listOrder.remove(order);

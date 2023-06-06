@@ -130,7 +130,7 @@ public class LandingPage extends BaseScene implements Showable {
             try {
                 UserController.registerUser(formUsername, formPassword);
 
-                System.out.println("berhasil");
+                // System.out.println("berhasil");
 
             } catch (Exception e) {
                 // TODO: handle exception
