@@ -15,13 +15,13 @@ import mdbudget.scenes.BaseScene;
 import mdbudget.scenes.admin.ManagementPage;
 import mdbudget.utils.ImageGenerator;
 
-public class LandingPage extends BaseScene implements Showable {
+public class LoginPage extends BaseScene implements Showable {
 
     private final int logoWidth = 150;
     private final int logoHeight = 150;
     private int userId;
 
-    public LandingPage(Stage stage) {
+    public LoginPage(Stage stage) {
         super(stage);
     }
 
@@ -124,17 +124,20 @@ public class LandingPage extends BaseScene implements Showable {
         registerButton.setMinWidth(115);
         registerButton.setMinHeight(45);
         registerButton.setOnAction(action -> {
-            String formUsername = username.getText();
-            String formPassword = password.getText();
+            // String formUsername = username.getText();
+            // String formPassword = password.getText();
+
+            RegisterPage registerPageScene = new RegisterPage(stage);
+            registerPageScene.show();
             
-            try {
-                UserController.registerUser(formUsername, formPassword);
+            // try {
+            //     // UserController.registerUser(formUsername, formPassword);
 
-                // System.out.println("berhasil");
+            //     // System.out.println("berhasil");
 
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
+            // } catch (Exception e) {
+            //     // TODO: handle exception
+            // }
 
 
 
