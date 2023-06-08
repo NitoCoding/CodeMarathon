@@ -6,7 +6,8 @@ package mdbudget;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import mdbudget.scenes.client.LandingPage;
+// import mdbudget.scenes.client.LandingPage;
+import mdbudget.scenes.client.LoginPage;
 
 public class App extends Application {
     protected Stage mainStage;
@@ -21,7 +22,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
-        LandingPage landingPageScene = new LandingPage(stage);
+        LoginPage landingPageScene = new LoginPage(stage);
         landingPageScene.show();
         stage.setTitle("CMBurger");
         stage.setResizable(false);

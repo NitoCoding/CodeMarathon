@@ -124,20 +124,20 @@ public class LoginPage extends BaseScene implements Showable {
         registerButton.setMinWidth(115);
         registerButton.setMinHeight(45);
         registerButton.setOnAction(action -> {
-            // String formUsername = username.getText();
-            // String formPassword = password.getText();
+            String formUsername = username.getText();
+            String formPassword = password.getText();
 
-            RegisterPage registerPageScene = new RegisterPage(stage);
-            registerPageScene.show();
+            // RegisterPage registerPageScene = new RegisterPage(stage);
+            // registerPageScene.show();
             
-            // try {
-            //     // UserController.registerUser(formUsername, formPassword);
+            try {
+                UserController.registerUser(formUsername, formPassword);
 
-            //     // System.out.println("berhasil");
+                // System.out.println("berhasil");
 
-            // } catch (Exception e) {
-            //     // TODO: handle exception
-            // }
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
 
 
 

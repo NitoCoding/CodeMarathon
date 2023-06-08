@@ -164,8 +164,8 @@ public class MenuPage extends BaseScene implements Showable {
             "-fx-text-fill: white;"
         );
         logoutButton.setOnAction(event -> {
-            LandingPage landingPageScene = new LandingPage(stage);
-            landingPageScene.show();
+            LoginPage loginPageScene = new LoginPage(stage);
+            loginPageScene.show();
         });
 
         stickyButtonContainer.add(logoutButton,0,0);
