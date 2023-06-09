@@ -172,6 +172,8 @@ public class LoginPage extends BaseScene implements Showable {
             if (user != 0) {
                 ManagementPage managementPageScene = new ManagementPage(stage);
                 managementPageScene.show();
+            } else {
+                Alerts.errorMessage("Invalid Username and Password");
             }
         });
 
