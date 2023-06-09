@@ -2,6 +2,7 @@ package mdbudget.scenes.client;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -13,6 +14,7 @@ import mdbudget.controllers.UserController;
 import mdbudget.interfaces.Showable;
 import mdbudget.scenes.BaseScene;
 import mdbudget.scenes.admin.ManagementPage;
+import mdbudget.utils.Alerts;
 import mdbudget.utils.ImageGenerator;
 
 public class LoginPage extends BaseScene implements Showable {
@@ -31,24 +33,24 @@ public class LoginPage extends BaseScene implements Showable {
 
         Label loginLabel = new Label("Login");
         loginLabel.setStyle(
-            "-fx-font-family: 'Jacques Francois';" +
-            "-fx-font-size: 40px;" +
-            "-fx-font-weight: 400;" +
-            "-fx-line-height: 53px;" +
-            "-fx-letter-spacing: 0em;" +
-            "-fx-text-alignment: center;" +
-            "-fx-text-fill: #385748;"
-            // "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 0px, 4px, 4px);"
+                "-fx-font-family: 'Jacques Francois';" +
+                        "-fx-font-size: 40px;" +
+                        "-fx-font-weight: 400;" +
+                        "-fx-line-height: 53px;" +
+                        "-fx-letter-spacing: 0em;" +
+                        "-fx-text-alignment: center;" +
+                        "-fx-text-fill: #385748;"
+        // "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 0px, 4px, 4px);"
         );
 
-        headerContainer.add(loginLabel,0,0);
+        headerContainer.add(loginLabel, 0, 0);
         headerContainer.setAlignment(Pos.TOP_CENTER);
 
         GridPane logoContainer = new GridPane();
 
         ImageView brandLogo = new ImageView(ImageGenerator.generate("mcbudg.png", logoWidth, logoHeight));
 
-        logoContainer.add(brandLogo,0,0);
+        logoContainer.add(brandLogo, 0, 0);
         // StackPane brandContainer = new StackPane(brandLogo);
         logoContainer.setAlignment(Pos.CENTER);
         //
@@ -64,7 +66,8 @@ public class LoginPage extends BaseScene implements Showable {
         username.setStyle("-fx-background-radius:100;");
         // username.setMaxWidth(250);
         username.setMinWidth(250);
-        username.setMinHeight(30);;
+        username.setMinHeight(30);
+        ;
 
         Label passwordLabel = new Label("Password :");
         passwordLabel.setStyle("-fx-font-family: 'Comic Sans MS';-fx-font-size:15;");
@@ -83,15 +86,14 @@ public class LoginPage extends BaseScene implements Showable {
 
         Button loginButton = new Button("Login");
         loginButton.setStyle(
-            "-fx-background-color: #F2911F;" +
-            "-fx-border-color: none;" +
-            "-fx-background-radius: 10;"+
-            "-fx-font-family: 'Jaldi';" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: 400;" +
-            "-fx-line-height: 34px;" +
-            "-fx-text-fill: white;"
-        );
+                "-fx-background-color: #F2911F;" +
+                        "-fx-border-color: none;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-font-family: 'Jaldi';" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: 400;" +
+                        "-fx-line-height: 34px;" +
+                        "-fx-text-fill: white;");
         loginButton.setMinWidth(115);
         loginButton.setMinHeight(45);
         loginButton.setOnAction(action -> {
@@ -105,6 +107,8 @@ public class LoginPage extends BaseScene implements Showable {
             if (userId != 0) {
                 MenuPage menuPageScene = new MenuPage(stage, userId);
                 menuPageScene.show();
+            } else {
+                Alerts.errorMessage("Invalid Username and Password");
             }
 
             // loginUser(formUsername,formPassword);
@@ -112,15 +116,14 @@ public class LoginPage extends BaseScene implements Showable {
 
         Button registerButton = new Button("Register");
         registerButton.setStyle(
-            "-fx-background-color: #F2911F;" +
-            "-fx-border-color: none;" +
-            "-fx-background-radius: 10;"+
-            "-fx-font-family: 'Jaldi';" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: 400;" +
-            "-fx-line-height: 34px;" +
-            "-fx-text-fill: white;"
-        );
+                "-fx-background-color: #F2911F;" +
+                        "-fx-border-color: none;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-font-family: 'Jaldi';" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: 400;" +
+                        "-fx-line-height: 34px;" +
+                        "-fx-text-fill: white;");
         registerButton.setMinWidth(115);
         registerButton.setMinHeight(45);
         registerButton.setOnAction(action -> {
@@ -129,32 +132,35 @@ public class LoginPage extends BaseScene implements Showable {
 
             // RegisterPage registerPageScene = new RegisterPage(stage);
             // registerPageScene.show();
-            
+
             try {
-                UserController.registerUser(formUsername, formPassword);
-
-                // System.out.println("berhasil");
-
+                if (!formUsername.isEmpty() && !formPassword.isEmpty()) {
+                    int status =UserController.registerUser(formUsername, formPassword);
+                    if (status > 0) {
+                        Alerts.successMessage("Register berhasil");
+                    } else {
+                        Alerts.errorMessage("User Telah Terdaftar");
+                    }
+                } else {
+                    Alerts.errorMessage("Isi Form");
+                }
             } catch (Exception e) {
                 // TODO: handle exception
             }
-
-
 
             // loginUser(formUsername,formPassword);
         });
 
         Button adminLoginButton = new Button("Login Admin");
         adminLoginButton.setStyle(
-            "-fx-background-color: #F2911F;" +
-            "-fx-border-color: none;" +
-            "-fx-background-radius: 10;"+
-            "-fx-font-family: 'Jaldi';" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: 400;" +
-            "-fx-line-height: 34px;" +
-            "-fx-text-fill: white;"
-        );
+                "-fx-background-color: #F2911F;" +
+                        "-fx-border-color: none;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-font-family: 'Jaldi';" +
+                        "-fx-font-size: 15px;" +
+                        "-fx-font-weight: 400;" +
+                        "-fx-line-height: 34px;" +
+                        "-fx-text-fill: white;");
         adminLoginButton.setMinWidth(250);
         adminLoginButton.setMinHeight(45);
         adminLoginButton.setOnAction(action -> {
@@ -178,11 +184,12 @@ public class LoginPage extends BaseScene implements Showable {
         buttonContainer.setVgap(10);
 
         GridPane layout = new GridPane();
-        layout.add(headerContainer,0,0);
-        layout.add(logoContainer,0,1);
-        layout.add(formContainer,0,2);
-        layout.add(buttonContainer,0,3);
-        // layout.getChildren().addAll(loginLabel, brandContainer, formContainer, buttonContainer);
+        layout.add(headerContainer, 0, 0);
+        layout.add(logoContainer, 0, 1);
+        layout.add(formContainer, 0, 2);
+        layout.add(buttonContainer, 0, 3);
+        // layout.getChildren().addAll(loginLabel, brandContainer, formContainer,
+        // buttonContainer);
         // layout.setAlignment(Pos.TOP_CENTER);
         // layout.setSpacing(20);
         layout.setAlignment(Pos.TOP_CENTER);

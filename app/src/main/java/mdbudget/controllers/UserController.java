@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import mdbudget.models.BaseModel;
 import mdbudget.models.User;
+import mdbudget.utils.Alerts;
 import mdbudget.utils.Connector;
 import mdbudget.utils.IdDatabaseGenerator;
 

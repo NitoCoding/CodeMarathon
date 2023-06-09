@@ -24,6 +24,7 @@ import mdbudget.controllers.OrderController;
 import mdbudget.interfaces.Showable;
 import mdbudget.models.OrderDetail;
 import mdbudget.scenes.BaseScene;
+import mdbudget.utils.Alerts;
 
 public class CartPage extends BaseScene implements Showable {
     private ArrayList<OrderDetail> listOrder;
@@ -273,9 +274,14 @@ public class CartPage extends BaseScene implements Showable {
                 if (listOrder.size() > 0) {
                     boolean status = OrderController.addOrder(listOrder, total, userId);
                     if (status) {
+                        Alerts.successMessage("Order Berhasil");
                         MenuPage menuPageScene = new MenuPage(stage, userId);
                         menuPageScene.show();
                     }
+                } else{
+                    Alerts.errorMessage("No Item Selected Yet");
+                    MenuPage menuPageScene = new MenuPage(stage, userId);
+                    menuPageScene.show();
                 }
             } catch (Exception e) {
                 // TODO: handle exception

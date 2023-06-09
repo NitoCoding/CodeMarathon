@@ -188,6 +188,17 @@ public class ManagementPage extends BaseScene implements Showable {
                     TableView<Order> tableView = createTableView(orderData, columns);
                     tableContainer.add(tableView, 0, 0, 2, 1);
                     tableView.prefWidthProperty().bind(tableContainer.widthProperty());
+
+                    tableView.setOnMouseClicked(events -> {
+                        if (events.getClickCount() == 1) {
+                            Order selectedOrder = tableView.getSelectionModel().getSelectedItem();
+                            if (selectedOrder != null) {
+                                int orderId = selectedOrder.getOrderId(); // Get the ID of the selected order
+                                DetailOrderPanel panel = new DetailOrderPanel(orderId);
+                                panel.showAndWait();
+                            }
+                        }
+                    });
                 } else if (dataTable.get(0) instanceof User) {
                     List<TableColumn<User, ?>> columns = new ArrayList<>();
 

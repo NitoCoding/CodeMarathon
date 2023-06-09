@@ -23,7 +23,8 @@ public class DetailOrderPanel extends Dialog<Void> {
         setTitle("Detail Order");
         setHeaderText(null);
 
-        ArrayList<BaseModel> dataRaw = OrderController.getDetailById(id);
+        ArrayList<BaseModel> dataRaw = OrderController.getDetailsById(id);
+        System.out.println(dataRaw.size());
 
         System.out.println(dataRaw);
 
@@ -36,6 +37,8 @@ public class DetailOrderPanel extends Dialog<Void> {
         }
 
         ObservableList<OrderDetail> data = FXCollections.observableArrayList(dataDetail);
+
+        System.out.println(data);
 
         TableView<OrderDetail> tableView = new TableView<>();
         tableView.setPrefWidth(400);

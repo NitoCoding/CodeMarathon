@@ -139,7 +139,7 @@ public class OrderController {
                 int orderId = resultSet.getInt("orderId");
                 int orderTotal = resultSet.getInt("orderTotal");
                 User orderUser = UserController.getUserById(resultSet.getInt("orderUserId"));
-                String orderDate = resultSet.getString("queryDate");
+                String orderDate = resultSet.getString("orderDate");
 
                 order = new Order(orderId, orderTotal, orderUser, orderDate);
 
@@ -169,28 +169,37 @@ public class OrderController {
         return order;
     }
 
-    public static OrderDetail getDetailById(int id) {
-        OrderDetail detail = null;
+    public static ArrayList<BaseModel> getDetailsById(int id) {
+        ArrayList<BaseModel> details = new ArrayList<>();
         try {
             conn = Connector.getConnection();
-            String queryOrder = "SELECT * FROM tb_Order";
+            // System.out.println(id);
+            String queryOrder = "SELECT * FROM tb_OrderDetail WHERE orderDetailOrderId = ?";
             PreparedStatement statement = conn.prepareStatement(queryOrder);
+            statement.setInt(1, id);
             resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                // orderDetailId, orderDetailOrderId, orderDetailMenuId, orderDetailMenuAmount
+            // System.out.println(resultSet);
+    
+            while (resultSet.next()) {
+                // Retrieve the data from the resultSet
                 int detailId = resultSet.getInt("orderDetailId");
-                Order orderDetailOrderId = OrderController.getOrderById(resultSet.getInt("orderDetailOrderId"));
-                Menu orderDetailMenuId = MenuController.getDataById(resultSet.getInt("orderDetailMenuId"));
+                // System.out.println(id);
+                int orderDetailOrderId = resultSet.getInt("orderDetailOrderId");
+                int orderDetailMenuId = resultSet.getInt("orderDetailMenuId");
                 int orderDetailMenuAmount = resultSet.getInt("orderDetailMenuAmount");
-
-                detail = new OrderDetail(detailId, orderDetailOrderId, orderDetailMenuId, orderDetailMenuAmount);
-
+    
+                // Get the associated objects using the retrieved IDs
+                Order orderDetailOrder = OrderController.getOrderById(orderDetailOrderId);
+                Menu orderDetailMenu = MenuController.getDataById(orderDetailMenuId);
+    
+                // Create the OrderDetail object
+                OrderDetail detail = new OrderDetail(detailId, orderDetailOrder, orderDetailMenu, orderDetailMenuAmount);
+                System.out.println(detail);
+    
+                details.add(detail);
             }
-
-        } catch (
-
-        SQLException e) {
+            System.out.println(details);
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // Close the database connections
@@ -209,8 +218,9 @@ public class OrderController {
                 e.printStackTrace();
             }
         }
-        return detail;
+        return details;
     }
+    
 
     // public static boolean addOrderDetail(OrderDetail orderDetail, )
 

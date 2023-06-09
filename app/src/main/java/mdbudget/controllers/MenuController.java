@@ -63,7 +63,7 @@ public class MenuController {
     public static Menu getDataById(int id){
         Menu menu = null;
         try {
-            String readQuery = "SELECT * FROM tb_Menu WHERE id = ? LIMIT 1";
+            String readQuery = "SELECT * FROM tb_Menu WHERE menuId = ? LIMIT 1";
             conn = Connector.getConnection(); 
             statement = conn.prepareStatement(readQuery);
             statement.setInt(1, id);
